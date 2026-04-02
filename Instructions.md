@@ -346,4 +346,102 @@ You should see "Compiled successfully" with no errors. This confirms TypeScript,
 
 ---
 
+## Phase 3: Data Layer
+
+### Step 8: Create Content Data Files
+
+This is the key architectural decision: **separate content from presentation.** Your data lives in TypeScript files as typed arrays/objects. Components import the data and render it. Benefits:
+
+- Update your resume bullets without touching component code
+- TypeScript catches typos and missing fields instantly
+- Adding a new item (project, job, etc.) = adding an object to an array — the UI auto-expands
+
+Create one file per content type in `src/data/`. Each file imports its type from `src/types/` and exports a typed array or object.
+
+**Pattern — every data file looks like this:**
+```ts
+/* src/data/[content-type].ts */
+
+import type { YourType } from "@/types";
+
+export const items: YourType[] = [
+  {
+    title: "First Item",
+    description: "Details here...",
+    // ... fields matching your interface
+  },
+  {
+    title: "Second Item",
+    // ...
+  },
+];
+```
+
+**What to put in each file depends on your site type:**
+
+| Site Type | Data Files You'd Create |
+|-----------|------------------------|
+| **Portfolio** | `profile.ts` (bio, links), `experience.ts` (jobs), `projects.ts`, `skills.ts`, `research.ts` |
+| **Blog** | `posts.ts` or individual MDX files in `src/content/`, `categories.ts` |
+| **SaaS Landing** | `features.ts`, `pricing.ts`, `testimonials.ts`, `faq.ts` |
+| **Documentation** | `navigation.ts` (sidebar structure), content in MDX files |
+
+**Tips for writing good data files:**
+
+1. **Order matters** — arrays render in order. Put your most impressive/recent items first.
+2. **Use `featured` or `highlighted` booleans** to flag key items the component can visually emphasize.
+3. **Keep text concise** — website text should be scannable. Save the long-form details for your resume PDF.
+4. **Use arrays for multi-paragraph text** — `bio: ["Paragraph 1", "Paragraph 2"]` is easier to manage than one giant string with `\n`.
+5. **Human-readable labels** — use "Data Structures & Algorithms" not "CMSC351". Visitors won't know your course codes.
+
+**Portfolio example — profile data:**
+```ts
+/* src/data/profile.ts */
+import type { Education, SocialLink } from "@/types";
+
+export const profile = {
+  name: "Your Name",
+  title: "Your Title or Specialty",
+  subtitle: "Your University or Company",
+  email: "you@example.com",
+  bio: [
+    "First paragraph about who you are.",
+    "Second paragraph about what you do.",
+  ],
+};
+
+export const socialLinks: SocialLink[] = [
+  { name: "GitHub", url: "https://github.com/you", icon: "Github" },
+  { name: "LinkedIn", url: "https://linkedin.com/in/you", icon: "Linkedin" },
+  { name: "Email", url: "mailto:you@example.com", icon: "Mail" },
+];
+```
+
+**SaaS example — features data:**
+```ts
+/* src/data/features.ts */
+export interface Feature {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export const features: Feature[] = [
+  {
+    title: "Lightning Fast",
+    description: "Built on edge infrastructure for sub-100ms responses.",
+    icon: "Zap",
+  },
+  // ...
+];
+```
+
+**Verify after creating all data files:**
+```bash
+npm run build
+```
+If TypeScript finds any mismatch between your types and your data (missing field, wrong type, typo), the build will fail with a helpful error message pointing to the exact line.
+
+---
+
 *More phases will be added as we continue building.*
