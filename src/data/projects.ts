@@ -10,15 +10,6 @@ import type { Project } from "@/types";
 
 export const projects: Project[] = [
   {
-    title: "Exoplanet Habitability Classification",
-    description:
-      "Neural and embedding-based ML models that predict exoplanet habitability using NASA and JPL datasets. Features custom neural networks for similarity-based classification, projecting NASA catalog entries into a learned habitability space.",
-    technologies: ["Python", "PyTorch", "Pandas", "NASA Exoplanet Archive"],
-    githubUrl:
-      "https://github.com/AhteshamAlvi/Exoplanet-Habitability-Classification-ML-Model",
-    featured: true,
-  },
-  {
     title: "Robotic Arm Manipulator Control",
     description:
       "End-to-end ROS2 robotic manipulation pipeline integrating ArUco vision, perspective calibration, inverse kinematics, and autonomous pick-and-place. Includes homography-based coordinate transformation and vacuum gripper control.",
@@ -58,10 +49,31 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/AhteshamAlvi/Mini_Unix_Shell",
   },
   {
-    title: "Flapping Winged Glider",
+    title: "Java Tank Game",
     description:
-      "Bio-inspired articulated flapping-wing robotic glider (RoboRaptor) with servo actuation, onboard sensing, and telemetry. Engineered Arduino firmware for flapping control and ~30 Hz data logging.",
-    technologies: ["Arduino", "C++", "CAD", "Sensor Integration"],
-    githubUrl: "https://github.com/AhteshamAlvi/Flapping_Winged_Glider",
+      "Two-player competitive tank game built in pure Java. Players control tanks with keyboard inputs to move, rotate, and shoot across a procedurally generated obstacle field. First to 5 hits wins.",
+    technologies: ["Java", "Game Development", "OOP"],
+    githubUrl: "https://github.com/AhteshamAlvi/Java_TankGame",
+  },
+  {
+    title: "LeetCode Solutions",
+    description:
+      "Collection of LeetCode problem solutions auto-synced from my LeetCode account via glsync. Covers array manipulation, number theory, SQL queries, and algorithmic challenges across multiple difficulty levels.",
+    technologies: ["Python", "Java", "SQL", "Algorithms"],
+    githubUrl: "https://github.com/AhteshamAlvi/Leetcode_Solutions",
+  },
+  {
+    title: "Algorithm Implementations",
+    description:
+      "Practice implementations of algorithms across multiple languages — dynamic programming, sorting, searching, and more. Built as a learning resource for algorithm design and cross-language proficiency.",
+    technologies: ["Rust", "Python", "OCaml", "Dynamic Programming"],
+    githubUrl: "https://github.com/AhteshamAlvi/Algorithm-Implementation",
+  },
+  {
+    title: "Basic Chatbot",
+    description:
+      "Beginner chatbot in Python using a pattern-matching and template-based approach. Features separate prompt and response directories for modular conversation design.",
+    technologies: ["Python", "NLP", "Chatbot Design"],
+    githubUrl: "https://github.com/AhteshamAlvi/BasicChatbot",
   },
 ];

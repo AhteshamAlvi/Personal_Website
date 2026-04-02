@@ -766,4 +766,128 @@ Should compile all sections with zero errors.
 
 ---
 
+## Phase 6: Polish (SEO, Accessibility)
+
+### Step 23: SEO Setup
+
+SEO (Search Engine Optimization) makes your site discoverable in search results. Three files to add:
+
+**1. `src/app/robots.ts`** — Tells crawlers which pages to index:
+```ts
+import type { MetadataRoute } from "next";
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: { userAgent: "*", allow: "/" },
+    sitemap: "https://yourdomain.com/sitemap.xml",  // Update with your domain
+  };
+}
+```
+Next.js automatically serves this as `/robots.txt`.
+
+**2. `src/app/sitemap.ts`** — Lists all URLs for crawlers:
+```ts
+import type { MetadataRoute } from "next";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
+    {
+      url: "https://yourdomain.com",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 1,
+    },
+    // Add more pages here if you have /blog, /projects/[slug], etc.
+  ];
+}
+```
+
+**3. Open Graph + JSON-LD in `layout.tsx`:**
+
+Add Open Graph meta tags to your `metadata` export for social sharing previews:
+```ts
+export const metadata: Metadata = {
+  title: "Your Title",
+  description: "Your description",
+  openGraph: {
+    title: "Your Title",
+    description: "Your description",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Your Title",
+    description: "Your description",
+  },
+};
+```
+
+Add JSON-LD structured data (machine-readable info for Google rich results):
+```ts
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",           // Or "Organization", "Product", etc.
+  name: "Your Name",
+  jobTitle: "Your Title",
+  url: "https://yourdomain.com",
+  sameAs: ["https://github.com/you", "https://linkedin.com/in/you"],
+};
+```
+
+Inject it into `<head>`:
+```tsx
+<head>
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+  />
+</head>
+```
+
+**Schema types for different sites:**
+- Portfolio/personal: `"@type": "Person"`
+- Business/SaaS: `"@type": "Organization"` or `"@type": "SoftwareApplication"`
+- Blog: `"@type": "Blog"` with `"@type": "BlogPosting"` for each post
+- E-commerce: `"@type": "Product"` with pricing and review data
+
+### Step 24: Accessibility
+
+**Skip-to-content link** — essential for keyboard and screen reader users. Add it at the top of `<body>`, before the Navbar:
+
+```tsx
+<a
+  href="#main-content"
+  className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-20 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+>
+  Skip to content
+</a>
+```
+
+And add `id="main-content"` to your `<main>` tag.
+
+**How `sr-only` + `focus:not-sr-only` works:**
+- `sr-only` hides the element visually but keeps it in the accessibility tree
+- `focus:not-sr-only` makes it visible when the user Tabs to it
+- Mouse users never see it; keyboard users see it immediately
+
+**Accessibility checklist for any site:**
+- [ ] Semantic HTML: `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`
+- [ ] Single `<h1>` per page, proper `<h2>`→`<h3>` hierarchy
+- [ ] `aria-label` on all icon-only buttons and links
+- [ ] `alt` text on all images
+- [ ] Sufficient color contrast (4.5:1 for text — check at [webaim.org/resources/contrastchecker](https://webaim.org/resources/contrastchecker/))
+- [ ] Focus-visible outlines on interactive elements
+- [ ] Skip-to-content link
+- [ ] `lang="en"` on `<html>` tag
+- [ ] `target="_blank"` links have `rel="noopener noreferrer"`
+
+**Verify the build:**
+```bash
+npm run build
+```
+You should see `/robots.txt` and `/sitemap.xml` in the routes list.
+
+---
+
 *More phases will be added as we continue building.*
