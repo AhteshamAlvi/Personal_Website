@@ -890,4 +890,176 @@ You should see `/robots.txt` and `/sitemap.xml` in the routes list.
 
 ---
 
-*More phases will be added as we continue building.*
+## Phase 7: Deployment
+
+Your site is built — now get it on the internet. Three main options depending on your needs.
+
+### Option A: Vercel (Recommended for Next.js)
+
+Vercel is made by the same team that builds Next.js. Zero-config deployment, free tier, automatic rebuilds on every `git push`.
+
+**First-time setup (browser):**
+
+1. Go to [vercel.com/signup](https://vercel.com/signup) and sign up with your GitHub account
+2. Click **"Add New…" → "Project"**
+3. Select your repository from the list
+4. Vercel auto-detects Next.js — default settings are correct:
+   - Framework Preset: `Next.js`
+   - Build Command: `next build`
+   - Output Directory: `.next`
+5. Click **"Deploy"** — takes ~1-2 minutes
+6. You get a URL like `your-project-abc123.vercel.app`
+
+**No config changes needed.** Your `next.config.ts` can stay as-is.
+
+**After first deploy:** Every `git push` to `main` automatically redeploys.
+
+**CLI option (install once, use for previews):**
+```bash
+npm install -g vercel   # Install globally (one time)
+vercel                  # Deploy a preview (temporary URL for testing)
+vercel --prod           # Deploy to production
+```
+
+**Custom domain:** In your Vercel project → Settings → Domains, add your domain. Vercel provisions free SSL automatically. Update your domain's DNS to point to Vercel (they show you the exact records).
+
+### Option B: GitHub Pages (Free, static only)
+
+Good for simple sites. Requires a **static export** (no server-side features like API routes or server components with database access).
+
+**Step 1 — Configure static export** in `next.config.ts`:
+```ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: "export",      // Generates static HTML/CSS/JS files
+  images: {
+    unoptimized: true,   // Next.js image optimization doesn't work with static export
+  },
+  // If deploying to username.github.io/repo-name (not a custom domain):
+  // basePath: "/repo-name",
+};
+
+export default nextConfig;
+```
+
+**Step 2 — Add a GitHub Actions workflow** at `.github/workflows/deploy.yml`:
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+      - uses: actions/deploy-pages@v4
+```
+
+**Step 3 — Enable GitHub Pages:** In your repo → Settings → Pages → Source: "GitHub Actions".
+
+**Step 4 — Push to main.** The workflow builds and deploys automatically.
+
+> **Gotcha:** If your repo name isn't `username.github.io`, GitHub Pages serves at `username.github.io/repo-name`. You need `basePath: "/repo-name"` in `next.config.ts`, and all internal links must account for this prefix.
+
+### Option C: Netlify
+
+Similar to Vercel but less Next.js-specific. Good if you already use Netlify for other projects.
+
+1. Go to [netlify.com](https://netlify.com), sign up with GitHub
+2. Click "Add new site" → "Import an existing project"
+3. Select your repo
+4. Build command: `npm run build`
+5. Publish directory: `.next` (or `out` if using static export)
+6. Click Deploy
+
+**For Next.js server features on Netlify**, install their adapter:
+```bash
+npm install @netlify/plugin-nextjs
+```
+
+### After Deployment: Checklist
+
+Once your site is live, verify:
+
+- [ ] All pages load correctly at the production URL
+- [ ] Dark/light mode works (check that `localStorage` persists between visits)
+- [ ] Resume/CV PDF downloads work
+- [ ] All external links (GitHub, LinkedIn) open in new tabs
+- [ ] Mobile responsiveness — test on your phone or at [responsivedesignchecker.com](https://responsivedesignchecker.com)
+- [ ] Run [PageSpeed Insights](https://pagespeed.web.dev) for performance score
+- [ ] Run [Lighthouse](https://developer.chrome.com/docs/lighthouse/) in Chrome DevTools for accessibility audit
+- [ ] Test your Open Graph tags at [opengraph.xyz](https://opengraph.xyz) — paste your URL and see the social preview
+
+### Ongoing: How to Update Your Site
+
+After deployment, the workflow is simple:
+
+```bash
+# 1. Edit your data files or components locally
+#    (e.g., add a new project to src/data/projects.ts)
+
+# 2. Verify locally
+npm run dev        # Check at localhost:3000
+npm run build      # Make sure it compiles
+
+# 3. Push to GitHub — Vercel auto-deploys
+git add -A
+git commit -m "Add new project"
+git push
+```
+
+That's it — your updated site is live in ~1 minute.
+
+---
+
+## Quick Reference
+
+### Common Commands
+```bash
+npm run dev        # Start dev server at localhost:3000
+npm run build      # Production build (catches TypeScript errors)
+npm run start      # Serve the production build locally
+npm run lint       # Run ESLint to check for code issues
+vercel             # Preview deployment
+vercel --prod      # Production deployment
+```
+
+### Where Things Live
+| What | Where |
+|------|-------|
+| Page content | `src/data/*.ts` — edit these to update text |
+| Visual layout | `src/components/sections/*.tsx` — section components |
+| Site-wide wrapper | `src/app/layout.tsx` — navbar, footer, fonts, SEO |
+| Page composition | `src/app/page.tsx` — imports and orders sections |
+| Downloadable files | `public/` — PDFs, images, favicon |
+| Styles | `src/app/globals.css` — color scheme and global CSS |
+| Types | `src/types/index.ts` — data shape definitions |
+
+### Adding a New Section
+1. Create `src/components/sections/NewSection.tsx`
+2. Import and render it in `src/app/page.tsx`
+3. Add `{ label: "New", href: "#new-section" }` to `navLinks` in `Navbar.tsx`
+4. Give the section `id="new-section"` to match
+
+### Adding a New Page (multi-page site)
+1. Create `src/app/new-page/page.tsx`
+2. It's automatically available at `/new-page`
+3. Add it to your sitemap in `src/app/sitemap.ts`
