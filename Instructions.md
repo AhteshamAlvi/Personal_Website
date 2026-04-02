@@ -444,4 +444,216 @@ If TypeScript finds any mismatch between your types and your data (missing field
 
 ---
 
+## Phase 4: Layout Components (Navbar, Footer)
+
+Layout components wrap your page content and persist across all pages. They live in `src/components/layout/`.
+
+### Step 9: ThemeToggle (`src/components/ui/ThemeToggle.tsx`)
+
+Build this first because the Navbar uses it.
+
+**Key concept — `"use client"`:** In Next.js App Router, components are **server components** by default (render on the server, ship zero JS). Anything interactive (clicks, state, effects) needs `"use client"` to tell Next.js it must run in the browser.
+
+**Key concept — hydration mismatch:** The server doesn't know if the user prefers dark or light mode (that's in the browser's `localStorage`). If we render the icon immediately, we'd get a flash of the wrong one. Solution: render a same-sized placeholder until the client mounts.
+
+```tsx
+/* src/components/ui/ThemeToggle.tsx */
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { Sun, Moon } from "lucide-react";
+
+export default function ThemeToggle() {
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => { setMounted(true); }, []);
+
+  // Same-size placeholder prevents layout shift
+  if (!mounted) return <div className="h-9 w-9" />;
+
+  return (
+    <button
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="rounded-md p-2 transition-colors hover:bg-foreground/10"
+      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+    >
+      {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+    </button>
+  );
+}
+```
+
+**Notes:**
+- `aria-label` is required on icon-only buttons for screen reader accessibility
+- `hover:bg-foreground/10` = 10% opacity of the foreground color — a subtle hover that works in both themes
+
+### Step 10: Navbar (`src/components/layout/Navbar.tsx`)
+
+The Navbar handles:
+- **Sticky positioning** — stays at the top as you scroll
+- **Backdrop blur** — frosted-glass effect when scrolled
+- **Active section highlighting** — uses `IntersectionObserver` to track which section is in view
+- **Responsive design** — horizontal links on desktop, hamburger menu on mobile
+
+**Key concepts:**
+- `useState` — React's way to track changing values (is the menu open? which section is active?)
+- `useEffect` — Runs code after render (setting up scroll/intersection listeners)
+- `IntersectionObserver` — Browser API that tells you when elements enter/leave the viewport
+- `{ passive: true }` on scroll listeners — tells the browser this handler won't block scrolling, improving performance
+
+```tsx
+/* src/components/layout/Navbar.tsx */
+"use client";
+
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import { cn } from "@/lib/utils";
+
+// Each entry maps to a section's id attribute on the page.
+// To add a section: add it here AND create a section component with a matching id.
+const navLinks = [
+  { label: "About", href: "#about" },
+  { label: "Projects", href: "#projects" },
+  // ... add your sections
+];
+
+export default function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const [scrolled, setScrolled] = useState(false);
+
+  // Track scroll position for background styling
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Track which section is in view for active link highlighting
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: "-50% 0px -50% 0px" } // Trigger when section midpoint is in center
+    );
+    navLinks.forEach(({ href }) => {
+      const el = document.getElementById(href.replace("#", ""));
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <header className={cn(
+      "sticky top-0 z-50 w-full transition-all duration-300",
+      scrolled
+        ? "border-b border-border bg-background/80 backdrop-blur-md shadow-sm"
+        : "bg-transparent"
+    )}>
+      <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
+        {/* Logo */}
+        <a href="#" className="text-lg font-semibold">YourInitials</a>
+
+        {/* Desktop links — hidden below md breakpoint */}
+        <div className="hidden items-center gap-1 md:flex">
+          {navLinks.map(({ label, href }) => (
+            <a key={href} href={href} className={cn(
+              "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+              activeSection === href.replace("#", "") ? "text-primary" : "text-muted hover:text-foreground"
+            )}>{label}</a>
+          ))}
+          <ThemeToggle />
+        </div>
+
+        {/* Mobile hamburger — shown below md breakpoint */}
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="rounded-md p-2 hover:bg-foreground/10"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}>
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile dropdown */}
+      {mobileMenuOpen && (
+        <div className="border-t border-border bg-background px-4 pb-4 md:hidden">
+          {navLinks.map(({ label, href }) => (
+            <a key={href} href={href} onClick={() => setMobileMenuOpen(false)}
+              className="block rounded-md px-3 py-2 text-sm font-medium text-muted hover:text-foreground">
+              {label}
+            </a>
+          ))}
+        </div>
+      )}
+    </header>
+  );
+}
+```
+
+**Responsive pattern:** `hidden md:flex` means "hidden by default (mobile), visible as flex above 768px". This is Tailwind's mobile-first approach — write mobile styles first, override for larger screens.
+
+### Step 11: Footer (`src/components/layout/Footer.tsx`)
+
+The simplest layout component. No `"use client"` needed — it's a server component (zero JS shipped).
+
+**Important: brand icons.** Libraries like `lucide-react` don't include brand logos (GitHub, LinkedIn, Twitter) due to trademark licensing. Use inline SVGs for these. The SVGs should use `fill="currentColor"` so they inherit text color and adapt to light/dark mode automatically.
+
+```tsx
+/* src/components/layout/Footer.tsx */
+import { Mail } from "lucide-react";
+
+// Brand icons as inline SVGs (lucide-react doesn't include brand logos)
+function GithubIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387..." />
+    </svg>
+  );
+}
+// Get full SVG paths from https://simpleicons.org
+
+// Map string names (from data files) to React components
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Github: GithubIcon,
+  Mail,
+};
+```
+
+**The icon mapping pattern** bridges your data layer (stores icon names as strings) with React (needs components to render). This keeps data files free of React imports.
+
+### Wire Layout into Root Layout
+
+Add Navbar and Footer to `src/app/layout.tsx` so they appear on every page:
+
+```tsx
+/* In src/app/layout.tsx — inside ThemeProvider: */
+<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+  <Navbar />
+  <main className="flex-1">{children}</main>
+  <Footer />
+</ThemeProvider>
+```
+
+**Critical:** Add `flex flex-col` to `<body>` and `flex-1` to `<main>`. This is a flexbox trick that makes the footer stick to the bottom even on short pages:
+- `<body>` is a column flex container spanning full screen height (`min-h-screen`)
+- `<main>` grows to fill available space (`flex-1`)
+- `<Footer>` sits at the bottom naturally — no sticky/fixed positioning needed
+
+**Verify:**
+```bash
+npm run build
+```
+
+---
+
 *More phases will be added as we continue building.*
