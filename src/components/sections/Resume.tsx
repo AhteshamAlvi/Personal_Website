@@ -19,18 +19,29 @@ export default function Resume() {
           <FileText className="mx-auto h-12 w-12 text-primary" />
           <h2 className="mt-4 text-2xl font-bold">Want the full picture?</h2>
           <p className="mt-2 text-muted">
-            Download my resume for a detailed overview of my experience,
-            education, and skills.
+            Download my resume for a quick overview, or my full CV for
+            a detailed look at my experience, education, and skills.
           </p>
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            <Download className="h-4 w-4" />
-            Download Resume
-          </a>
+          <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              <Download className="h-4 w-4" />
+              Download Resume
+            </a>
+            <a
+              href="/cv.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5"
+            >
+              <Download className="h-4 w-4" />
+              Download CV
+            </a>
+          </div>
         </div>
       </div>
     </section>
