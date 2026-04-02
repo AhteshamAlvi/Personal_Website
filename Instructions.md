@@ -656,4 +656,114 @@ npm run build
 
 ---
 
+## Phase 5: Section Components
+
+Now you build the actual content sections. Each section is a React component in `src/components/sections/` that imports its data from `src/data/`.
+
+### Reusable Components First
+
+Before building sections, create reusable UI pieces they'll share.
+
+**SectionHeading** (`src/components/ui/SectionHeading.tsx`) — Consistent heading for every section. Takes a `title` string, renders an `<h2>` with an accent underline. Ensures heading hierarchy is correct for accessibility/SEO.
+
+```tsx
+export default function SectionHeading({ title }: { title: string; className?: string }) {
+  return (
+    <div className="mb-12">
+      <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
+      <div className="mt-3 h-1 w-16 rounded-full bg-primary" />
+    </div>
+  );
+}
+```
+
+**Card components** (ProjectCard, ExperienceCard, SkillBadge) — Small presentational components that receive a single item via props and render it. Benefits:
+- The section component handles layout (grid, stack, timeline)
+- The card handles its own internal styling
+- Cards are reusable in different layouts without changes
+
+### Building Each Section
+
+**Every section follows this pattern:**
+```tsx
+<section id="section-name" className="py-16 md:py-24">
+  <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <SectionHeading title="Section Title" />
+    {/* Section content */}
+  </div>
+</section>
+```
+
+- `id` attribute = enables navbar anchor linking (`href="#section-name"`)
+- `py-16 md:py-24` = vertical padding (4rem mobile, 6rem desktop)
+- `max-w-5xl` = constrains content width (64rem). Use `max-w-3xl` for text-heavy sections.
+- `px-4 sm:px-6 lg:px-8` = horizontal padding that grows on wider screens
+
+**Section types and their layouts:**
+
+| Section | Layout Pattern | Key Tailwind |
+|---------|---------------|--------------|
+| **Hero** | Centered, full viewport | `min-h-[calc(100vh-4rem)] text-center` |
+| **About** | Narrow text column | `max-w-3xl space-y-4 leading-relaxed` |
+| **Education** | Single card with sub-sections | `rounded-xl border bg-card p-6` |
+| **Experience** | Vertical stack of cards | `space-y-6` with ExperienceCard children |
+| **Projects** | Responsive grid | `grid gap-6 sm:grid-cols-2 lg:grid-cols-3` |
+| **Research** | Card(s) with icon header | Similar to Experience but with icon badge |
+| **Skills** | Grid of grouped pill badges | `grid sm:grid-cols-2 lg:grid-cols-3` with `flex-wrap` pills |
+| **Resume** | Centered CTA | `text-center` with download button |
+| **Contact** | Centered with email + social links | `text-center` with icon row |
+
+**Useful Tailwind patterns for sections:**
+
+1. **`space-y-N`** — Adds consistent vertical gaps between children (e.g., `space-y-4` = 1rem between paragraphs)
+2. **`flex-wrap gap-2`** — Items flow left-to-right and wrap to next line. Perfect for tag/badge lists.
+3. **`mt-auto` in `flex-col`** — Pushes content to the bottom of a card. Keeps card grids aligned when content heights vary.
+4. **`bg-primary/10`** — 10% opacity of your primary color. Great for subtle tinted badges.
+5. **`uppercase tracking-wider text-sm`** — Label-style text for category headings.
+
+### Assembling the Page
+
+`src/app/page.tsx` is a pure composition component — it imports all sections and renders them in order:
+
+```tsx
+import Hero from "@/components/sections/Hero";
+import About from "@/components/sections/About";
+// ... import all sections
+
+export default function Home() {
+  return (
+    <>
+      <Hero />
+      <About />
+      {/* ... all sections in desired order */}
+    </>
+  );
+}
+```
+
+`<>...</>` is a React Fragment — wraps multiple elements without adding an extra DOM node. The `<main>` wrapper is already in `layout.tsx`.
+
+To rearrange sections, just move the imports. To add a new section, create the component and drop it in.
+
+### Static Files
+
+Place downloadable files (resume PDF, etc.) in the `public/` folder. Next.js serves them at the root URL:
+- File at `public/resume.pdf` → accessible at `/resume.pdf`
+- File at `public/images/headshot.jpg` → accessible at `/images/headshot.jpg`
+
+### Brand Icons Gotcha
+
+Icon libraries like `lucide-react` typically don't include brand logos (GitHub, LinkedIn, Twitter/X) due to trademark licensing. Solutions:
+1. **Inline SVGs** — Get paths from [Simple Icons](https://simpleicons.org), wrap in a React component with `fill="currentColor"` for theme adaptation
+2. **`react-icons`** — Alternative library that includes brand icons (heavier bundle)
+3. **`@icons-pack/react-simple-icons`** — Dedicated brand icon package
+
+**Verify:**
+```bash
+npm run build
+```
+Should compile all sections with zero errors.
+
+---
+
 *More phases will be added as we continue building.*
