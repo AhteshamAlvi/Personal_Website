@@ -1,19 +1,39 @@
 # How to Build a Website from Scratch
 
-A complete, self-contained guide to building a modern website using Next.js, React, TypeScript, and Tailwind CSS. Follow these steps in order — every command is copy-paste ready.
+A complete guide to building modern websites with Next.js, React, TypeScript, and Tailwind CSS. Covers everything from simple static sites to complex multi-page applications with APIs, authentication, and databases. Every command is copy-paste ready.
 
-This guide uses a personal portfolio as its running example, but the architecture applies to any kind of site (blog, SaaS landing page, documentation site, etc.).
+---
+
+## Table of Contents
+
+1. [Prerequisites](#prerequisites)
+2. [Phase 1: Scaffold](#phase-1-scaffold-the-project)
+3. [Phase 2: Foundation](#phase-2-foundation-styles-layout-types)
+4. [Phase 3: Data Layer](#phase-3-data-layer)
+5. [Phase 4: Layout Components](#phase-4-layout-components)
+6. [Phase 5: Pages & Sections](#phase-5-pages--sections)
+7. [Phase 6: Multi-Page Routing](#phase-6-multi-page-routing)
+8. [Phase 7: API Routes & Server Actions](#phase-7-api-routes--server-actions)
+9. [Phase 8: Forms & Validation](#phase-8-forms--validation)
+10. [Phase 9: Database Integration](#phase-9-database-integration)
+11. [Phase 10: Authentication](#phase-10-authentication)
+12. [Phase 11: State Management](#phase-11-state-management)
+13. [Phase 12: Animations & Transitions](#phase-12-animations--transitions)
+14. [Phase 13: SEO & Accessibility](#phase-13-seo--accessibility)
+15. [Phase 14: Testing](#phase-14-testing)
+16. [Phase 15: Deployment](#phase-15-deployment)
+17. [Quick Reference](#quick-reference)
 
 ---
 
 ## Prerequisites
 
-- **Node.js** (v18 or later): [https://nodejs.org](https://nodejs.org)
+- **Node.js** (v18+): [https://nodejs.org](https://nodejs.org)
 - **npm** (comes with Node.js)
 - **Git**: [https://git-scm.com](https://git-scm.com)
 - A code editor (VS Code recommended)
+- A Vercel account linked to your GitHub
 
-Verify your setup:
 ```bash
 node --version    # Should be v18+
 npm --version     # Should be v9+
@@ -26,130 +46,122 @@ git --version
 
 ### Step 1: Initialize a Next.js Project
 
-Next.js is a React framework that handles routing, server-side rendering (for SEO), and production builds. The `create-next-app` CLI scaffolds a working project with all configuration pre-done.
+Next.js is a React framework that handles routing, server-side rendering, and production builds.
 
 ```bash
 npx create-next-app@latest my-site --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-npm
 cd my-site
 ```
 
-Replace `my-site` with your project name (must be lowercase, no spaces — use hyphens).
+Replace `my-site` with your project name (must be lowercase, hyphens only — no spaces or capitals).
 
 **What each flag does:**
 
 | Flag | Purpose |
 |------|---------|
-| `--typescript` | Adds TypeScript for type-safe code (catches bugs at compile time, not runtime) |
-| `--tailwind` | Pre-configures Tailwind CSS (utility-first CSS: write `className="flex"` instead of separate CSS files) |
-| `--eslint` | Adds a linter that catches common JS/React mistakes |
-| `--app` | Uses Next.js App Router (folder-based routing — each folder in `app/` becomes a URL route) |
-| `--src-dir` | Puts app code under `src/` so the root stays clean for config files |
-| `--import-alias "@/*"` | Lets you write `import X from "@/lib/utils"` instead of `"../../../lib/utils"` |
-| `--use-npm` | Uses npm as the package manager (vs yarn or pnpm) |
-
-> **Note:** npm requires lowercase package names. If your folder has capital letters, either use a lowercase name or create in a temp folder and move the files.
+| `--typescript` | Type-safe code — catches bugs at compile time, not runtime |
+| `--tailwind` | Utility-first CSS (`className="flex"` instead of separate CSS files) |
+| `--eslint` | Linter that catches common JS/React mistakes |
+| `--app` | App Router — folder-based routing where each folder in `app/` becomes a URL |
+| `--src-dir` | Keeps app code under `src/` so root stays clean for configs |
+| `--import-alias "@/*"` | Write `import X from "@/lib/utils"` instead of `"../../../lib/utils"` |
+| `--use-npm` | Use npm as package manager |
 
 **What gets created:**
 
 | File/Folder | Purpose |
 |---|---|
-| `src/app/` | Your pages, layouts, and styles |
+| `src/app/` | Pages, layouts, and styles |
 | `public/` | Static files served as-is (images, PDFs, favicon) |
-| `package.json` | Dependencies and scripts (`npm run dev`, `npm run build`) |
-| `tsconfig.json` | TypeScript compiler settings |
+| `package.json` | Dependencies and scripts |
+| `tsconfig.json` | TypeScript settings |
 | `next.config.ts` | Next.js configuration |
-| `postcss.config.mjs` | PostCSS pipeline (Tailwind plugs in here) |
-| `eslint.config.mjs` | Linting rules |
-| `node_modules/` | Installed packages (never edit, never commit — .gitignore handles this) |
+| `node_modules/` | Installed packages (never edit, never commit) |
 
-### Step 2: Install Additional Dependencies
+### Step 2: Install Dependencies
 
-These are common packages useful for almost any website. Pick what you need:
+Pick packages based on what your site needs:
 
-**Recommended for most sites:**
+**Core (recommended for most sites):**
 ```bash
 npm install next-themes lucide-react clsx tailwind-merge
 ```
 
-| Package | Why | When to skip |
-|---------|-----|--------------|
-| `next-themes` | Dark/light mode toggle. Handles the tricky SSR hydration problem (server doesn't know your theme preference, so without this you'd get a flash of the wrong theme on load) | If you don't want a theme toggle |
-| `lucide-react` | Icon library. Tree-shakeable — only the icons you import get bundled, not all 1000+ | If you'll use a different icon set or no icons |
-| `clsx` | Conditionally join CSS classnames: `clsx("bg-white", isActive && "bg-blue-500")` | Almost never — this is useful on any project |
-| `tailwind-merge` | Resolves conflicting Tailwind classes: `bg-white` + `bg-blue-500` → keeps only `bg-blue-500` | If you don't pass dynamic classnames to components |
+| Package | Purpose |
+|---------|---------|
+| `next-themes` | Dark/light mode toggle with SSR hydration handling |
+| `lucide-react` | Tree-shakeable icon library (1000+ icons, only imports what you use) |
+| `clsx` | Conditionally join CSS classnames: `clsx("bg-white", isActive && "bg-blue-500")` |
+| `tailwind-merge` | Resolves conflicting Tailwind classes so parent overrides work |
 
-**Other common packages depending on your site type:**
+**Extended (add as needed):**
 
-| Package | Use case |
+| Package | Use Case |
 |---------|----------|
 | `framer-motion` | Scroll animations, page transitions, micro-interactions |
-| `@mdx-js/mdx` + `next-mdx-remote` | Blog posts or docs written in Markdown with embedded React components |
-| `zustand` or `jotai` | Lightweight state management (if React's useState/useContext isn't enough) |
-| `react-hook-form` + `zod` | Complex forms with validation (contact forms, signup flows) |
+| `@mdx-js/mdx` + `next-mdx-remote` | Markdown with embedded React (blogs, docs) |
+| `zustand` or `jotai` | Lightweight global state management |
+| `react-hook-form` + `zod` | Complex forms with schema validation |
+| `prisma` or `drizzle-orm` | Database ORM (type-safe queries) |
+| `next-auth` (Auth.js) | Authentication (OAuth, credentials, magic links) |
+| `@tanstack/react-query` | Server state, caching, background refetching |
+| `sharp` | Image optimization (Next.js uses this under the hood) |
+| `resend` or `nodemailer` | Send transactional emails |
+| `stripe` | Payments and subscriptions |
+| `uploadthing` or `@vercel/blob` | File uploads |
+| `socket.io` or `pusher` | Real-time features (chat, notifications) |
 
-### Step 3: Create the Directory Structure
+### Step 3: Create Directory Structure
 
 ```bash
 mkdir -p src/components/layout src/components/sections src/components/ui src/data src/lib src/types src/hooks public/images
 ```
 
-**What each folder is for:**
-
 ```
 src/
-├── app/              ← Pages and layouts (Next.js routes live here)
+├── app/              ← Pages and layouts (Next.js routes)
 ├── components/
-│   ├── layout/       ← Persistent UI that wraps pages: Navbar, Footer, Sidebar
-│   ├── sections/     ← Major content blocks (e.g., Hero, Pricing, Features, About)
-│   └── ui/           ← Small reusable pieces: buttons, badges, cards, modals
-├── data/             ← Your content as typed TypeScript objects (alternative: use a CMS)
+│   ├── layout/       ← Persistent wrappers: Navbar, Footer, Sidebar
+│   ├── sections/     ← Major content blocks (Hero, Features, Pricing, etc.)
+│   └── ui/           ← Reusable pieces: buttons, badges, cards, modals, inputs
+├── data/             ← Content as typed TypeScript objects
 ├── hooks/            ← Custom React hooks
-├── lib/              ← Utility functions
-└── types/            ← TypeScript interface definitions
+├── lib/              ← Utility functions, API clients, constants
+└── types/            ← TypeScript interfaces
 public/
-├── images/           ← Photos, logos, Open Graph preview images
+├── images/           ← Photos, logos, OG preview images
 └── favicon.ico       ← Browser tab icon
 ```
 
-**Adapt this structure to your site type:**
-- **Portfolio**: `sections/` = Hero, About, Projects, Experience, Skills, Contact
-- **Blog**: Add `src/content/` for MDX posts; `sections/` might just be a post list
-- **SaaS landing page**: `sections/` = Hero, Features, Pricing, Testimonials, CTA, FAQ
-- **Documentation site**: Replace `sections/` with `docs/` pages; consider a sidebar layout
+> **Principle:** Separate *layout* (persistent wrappers), *sections/pages* (main content), *ui* (reusable small components), and *data* (content separate from presentation). This structure scales — add folders as complexity grows.
 
-> **Principle:** The folder structure is a suggestion, not a rule. The key idea is separating *layout* (persistent wrappers), *sections/pages* (main content), *ui* (reusable small components), and *data* (content separate from presentation).
-
-**Verify it works:**
+**Verify:**
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) — you should see the Next.js welcome page. Press `Ctrl+C` to stop the server.
+Open [http://localhost:3000](http://localhost:3000) — you should see the Next.js welcome page.
 
 ---
 
 ## Phase 2: Foundation (Styles, Layout, Types)
 
-This phase sets up the visual foundation — colors, fonts, dark mode, utility functions, and data types — before you build any actual sections.
+### Step 4: Global Styles (`src/app/globals.css`)
 
-### Step 4: Set Up Global Styles (`src/app/globals.css`)
+Replace the generated file with your color scheme. This is the one CSS file applied to the entire site.
 
-Replace the generated `globals.css` with your color scheme. This file is the one CSS file that applies to your entire site.
-
-**Key concept — CSS Custom Properties (variables):**
+**Key concept — CSS Custom Properties:**
 ```css
---background: #ffffff;          /* Define a variable */
-background: var(--background);  /* Use it */
+--background: #ffffff;          /* Define */
+background: var(--background);  /* Use */
 ```
-Dark mode works by swapping variable values. Every component using `var(--background)` automatically updates — one change, entire site switches.
-
-**Important:** We use **class-based dark mode** (a `.dark` class on `<html>`) rather than the default `prefers-color-scheme` media query. This is what lets users toggle the theme with a button.
+Dark mode works by swapping variable values inside a `.dark` class. Every component using `var(--background)` auto-updates.
 
 ```css
 /* src/app/globals.css */
 
 @import "tailwindcss";
 
-/* Light mode (default) */
+/* Light mode */
 :root {
   --background: #ffffff;
   --foreground: #111827;
@@ -158,6 +170,9 @@ Dark mode works by swapping variable values. Every component using `var(--backgr
   --card: #f9fafb;
   --primary: #2563eb;
   --primary-foreground: #ffffff;
+  --destructive: #ef4444;
+  --success: #22c55e;
+  --warning: #f59e0b;
 }
 
 /* Dark mode — activated by class="dark" on <html> */
@@ -169,9 +184,12 @@ Dark mode works by swapping variable values. Every component using `var(--backgr
   --card: #111827;
   --primary: #3b82f6;
   --primary-foreground: #ffffff;
+  --destructive: #f87171;
+  --success: #4ade80;
+  --warning: #fbbf24;
 }
 
-/* Register custom colors with Tailwind so you can use bg-background, text-muted, etc. */
+/* Register with Tailwind v4 so you can use bg-background, text-muted, etc. */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -180,7 +198,10 @@ Dark mode works by swapping variable values. Every component using `var(--backgr
   --color-card: var(--card);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --font-sans: var(--font-inter);  /* Change to your font variable */
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --font-sans: var(--font-inter);
 }
 
 body {
@@ -189,57 +210,49 @@ body {
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
-/* Smooth scrolling for anchor links. Respects "reduce motion" OS settings. */
+/* Smooth anchor scrolling (respects reduced-motion OS setting) */
 @media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
 }
 ```
 
-**Customize for your site:**
-- Change the color hex values to match your brand/preference
-- Add more variables as needed (e.g., `--accent`, `--destructive` for error states)
-- The `@theme inline` block is Tailwind v4 specific — it registers your variables as usable Tailwind utility classes
-- Use `#030712` for dark background (not pure `#000000`, which is harsh on eyes)
+**Customization:**
+- Swap hex values for your brand colors
+- Add more variables: `--accent`, `--ring` (focus ring color), `--input` (form inputs)
+- Use `#030712` (not pure `#000000`) for dark backgrounds — less harsh on eyes
+- `@theme inline` is Tailwind v4 syntax that registers CSS variables as utility classes
 
-### Step 5: Set Up Fonts and Root Layout (`src/app/layout.tsx`)
+### Step 5: Root Layout (`src/app/layout.tsx`)
 
-`layout.tsx` wraps every page on your site. It's where you configure fonts, metadata (SEO), and providers (like dark mode).
-
-**Why `next/font/google`?** Normally, Google Fonts means an extra network request that slows your page. `next/font` downloads the font at build time and self-hosts it — zero external requests, no layout shift.
-
-**Why `ThemeProvider`?** It's a React Context provider from `next-themes` that reads saved theme preference from `localStorage`, applies the `.dark` class, and provides a `useTheme()` hook for the toggle button.
+The root layout wraps every page. It sets fonts, metadata, and global providers.
 
 ```tsx
 /* src/app/layout.tsx */
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";   // Swap Inter for any Google Font
+import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  display: "swap",  // Show fallback font immediately, swap when loaded
+  display: "swap",    // Show fallback font immediately, swap when loaded
 });
 
 export const metadata: Metadata = {
-  title: "Your Site Title",
-  description: "A short description for search engines and social shares.",
+  title: "Site Title",
+  description: "Short description for search engines and social shares.",
   keywords: ["keyword1", "keyword2"],
   authors: [{ name: "Your Name" }],
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className="min-h-screen bg-background text-foreground antialiased">
+      <body className="flex min-h-screen flex-col bg-background text-foreground antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>
@@ -250,14 +263,12 @@ export default function RootLayout({
 ```
 
 **Key details:**
-- **`suppressHydrationWarning`** on `<html>` is needed because `next-themes` adds the `dark` class on the client side, causing a harmless mismatch with the server-rendered HTML
-- **`defaultTheme="system"`** — first-time visitors get their OS preference; after toggling, the choice is saved to `localStorage`
-- **`antialiased`** — Tailwind class that smooths font rendering on screens
-- **To use a different font:** replace `Inter` with any font from `next/font/google` (e.g., `Poppins`, `Roboto`, `Playfair_Display`). Update the variable name to match.
+- **`suppressHydrationWarning`** — needed because `next-themes` adds `dark` class client-side, causing a harmless server/client mismatch
+- **`defaultTheme="system"`** — first-time visitors get their OS preference
+- **`flex min-h-screen flex-col`** on body + `flex-1` on main = sticky footer without positioning hacks
+- **Font swap:** Replace `Inter` with any `next/font/google` font. Update the variable name to match.
 
-### Step 6: Create the `cn()` Utility (`src/lib/utils.ts`)
-
-A small but essential helper used in almost every component:
+### Step 6: `cn()` Utility (`src/lib/utils.ts`)
 
 ```ts
 /* src/lib/utils.ts */
@@ -266,99 +277,83 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 /**
- * Combines clsx (conditional classnames) with tailwind-merge (conflict resolution).
- *
- * Examples:
- *   cn("px-4", isActive && "bg-blue-500")       → "px-4 bg-blue-500" (if active)
- *   cn("bg-red-500", "bg-blue-500")              → "bg-blue-500" (conflict resolved)
- *   cn("base-styles", props.className)            → parent can override styles
+ * Merge classnames with Tailwind conflict resolution.
+ * cn("bg-red-500", "bg-blue-500") → "bg-blue-500"
+ * cn("px-4", isActive && "bg-blue-500") → conditional classes
  */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 ```
 
-**Why this matters:** When you build reusable components (Button, Card, etc.), parents often need to override styles via `className`. Without `tailwind-merge`, conflicting classes like `bg-red-500` and `bg-blue-500` both end up in the string, and which wins depends on unpredictable CSS source order.
+Use `cn()` in every component that accepts a `className` prop. Without `tailwind-merge`, conflicting classes like `bg-red-500` + `bg-blue-500` both stay in the string, and CSS source order decides the winner unpredictably.
 
-### Step 7: Define TypeScript Types (`src/types/index.ts`)
+### Step 7: TypeScript Types (`src/types/index.ts`)
 
-Interfaces define the "shape" of your data. They ensure:
-1. You can't misspell field names
-2. Your editor autocompletes as you type
-3. Changing a field name shows every place that needs updating
-
-**Define types that match your site's content.** Here are common patterns:
+Define interfaces for your data. They give you autocomplete, catch typos, and flag missing fields at build time.
 
 ```ts
 /* src/types/index.ts */
 
-// Portfolio example
-export interface Project {
+// Define types that match your site's content. Examples:
+
+export interface NavItem {
+  label: string;
+  href: string;
+}
+
+export interface SocialLink {
+  name: string;
+  url: string;
+  icon: string;
+}
+
+// Content card (works for projects, features, case studies, etc.)
+export interface ContentItem {
   title: string;
   description: string;
-  technologies: string[];
-  githubUrl: string;
-  liveUrl?: string;       // "?" = optional field
+  tags?: string[];
+  url?: string;
+  image?: string;
   featured?: boolean;
 }
 
-export interface Experience {
+// Timeline entry (works for experience, education, changelog, etc.)
+export interface TimelineEntry {
   title: string;
-  company: string;
-  location: string;
+  organization: string;
+  location?: string;
   startDate: string;
-  endDate: string;         // Use "Present" for current positions
+  endDate: string;
   bullets: string[];
-  technologies?: string[];
 }
 
-// Blog example — you'd define these instead/additionally
-// export interface BlogPost {
-//   title: string;
-//   slug: string;
-//   date: string;
-//   summary: string;
-//   tags: string[];
-//   content: string;       // or MDX source
-// }
-
-// SaaS example
-// export interface Feature {
-//   title: string;
-//   description: string;
-//   icon: string;
-// }
-// export interface PricingTier {
-//   name: string;
-//   price: number;
-//   features: string[];
-//   recommended?: boolean;
-// }
+// Grouped list (works for skills, features by category, etc.)
+export interface GroupedList {
+  category: string;
+  items: string[];
+}
 ```
 
-**Adapt to your site:** Only define the types you actually need. The examples above show portfolio, blog, and SaaS patterns — pick what applies.
+Adapt these to your needs. Only define what you'll actually use.
 
-**Verify the build:**
+**Verify:**
 ```bash
 npm run build
 ```
-You should see "Compiled successfully" with no errors. This confirms TypeScript, Tailwind, and Next.js are all configured correctly.
 
 ---
 
 ## Phase 3: Data Layer
 
-### Step 8: Create Content Data Files
+### Step 8: Content Data Files
 
-This is the key architectural decision: **separate content from presentation.** Your data lives in TypeScript files as typed arrays/objects. Components import the data and render it. Benefits:
+**Core principle: separate content from presentation.** Data lives in typed TypeScript files. Components import and render it. This means:
+- Update text without touching component code
+- TypeScript catches typos and missing fields
+- Adding an item = adding an object to an array — the UI auto-expands
 
-- Update your resume bullets without touching component code
-- TypeScript catches typos and missing fields instantly
-- Adding a new item (project, job, etc.) = adding an object to an array — the UI auto-expands
-
-Create one file per content type in `src/data/`. Each file imports its type from `src/types/` and exports a typed array or object.
-
-**Pattern — every data file looks like this:**
+**Pattern — every data file follows this shape:**
 ```ts
 /* src/data/[content-type].ts */
 
@@ -367,94 +362,45 @@ import type { YourType } from "@/types";
 export const items: YourType[] = [
   {
     title: "First Item",
-    description: "Details here...",
-    // ... fields matching your interface
-  },
-  {
-    title: "Second Item",
-    // ...
-  },
-];
-```
-
-**What to put in each file depends on your site type:**
-
-| Site Type | Data Files You'd Create |
-|-----------|------------------------|
-| **Portfolio** | `profile.ts` (bio, links), `experience.ts` (jobs), `projects.ts`, `skills.ts`, `research.ts` |
-| **Blog** | `posts.ts` or individual MDX files in `src/content/`, `categories.ts` |
-| **SaaS Landing** | `features.ts`, `pricing.ts`, `testimonials.ts`, `faq.ts` |
-| **Documentation** | `navigation.ts` (sidebar structure), content in MDX files |
-
-**Tips for writing good data files:**
-
-1. **Order matters** — arrays render in order. Put your most impressive/recent items first.
-2. **Use `featured` or `highlighted` booleans** to flag key items the component can visually emphasize.
-3. **Keep text concise** — website text should be scannable. Save the long-form details for your resume PDF.
-4. **Use arrays for multi-paragraph text** — `bio: ["Paragraph 1", "Paragraph 2"]` is easier to manage than one giant string with `\n`.
-5. **Human-readable labels** — use "Data Structures & Algorithms" not "CMSC351". Visitors won't know your course codes.
-
-**Portfolio example — profile data:**
-```ts
-/* src/data/profile.ts */
-import type { Education, SocialLink } from "@/types";
-
-export const profile = {
-  name: "Your Name",
-  title: "Your Title or Specialty",
-  subtitle: "Your University or Company",
-  email: "you@example.com",
-  bio: [
-    "First paragraph about who you are.",
-    "Second paragraph about what you do.",
-  ],
-};
-
-export const socialLinks: SocialLink[] = [
-  { name: "GitHub", url: "https://github.com/you", icon: "Github" },
-  { name: "LinkedIn", url: "https://linkedin.com/in/you", icon: "Linkedin" },
-  { name: "Email", url: "mailto:you@example.com", icon: "Mail" },
-];
-```
-
-**SaaS example — features data:**
-```ts
-/* src/data/features.ts */
-export interface Feature {
-  title: string;
-  description: string;
-  icon: string;
-}
-
-export const features: Feature[] = [
-  {
-    title: "Lightning Fast",
-    description: "Built on edge infrastructure for sub-100ms responses.",
-    icon: "Zap",
+    description: "Details...",
   },
   // ...
 ];
 ```
 
-**Verify after creating all data files:**
+**Create files for each content type your site needs.** Common patterns:
+
+| Site Type | Data Files |
+|-----------|-----------|
+| Any site | `navigation.ts` (nav links), `site-config.ts` (name, URL, socials) |
+| Landing page | `features.ts`, `pricing.ts`, `testimonials.ts`, `faq.ts` |
+| Blog | Individual MDX files or `posts.ts` |
+| Documentation | `sidebar.ts` (nav structure), content in MDX |
+| E-commerce | `products.ts`, `categories.ts` |
+| Dashboard | `menu-items.ts`, `config.ts` |
+
+**Tips:**
+1. **Order matters** — arrays render in order. Put important items first.
+2. **Use `featured` booleans** to flag key items for visual emphasis.
+3. **Keep text scannable** — short descriptions, save details for dedicated pages.
+4. **Use arrays for multi-paragraph text** — `["Paragraph 1", "Paragraph 2"]` is cleaner than one string with `\n`.
+
+**Verify:**
 ```bash
 npm run build
 ```
-If TypeScript finds any mismatch between your types and your data (missing field, wrong type, typo), the build will fail with a helpful error message pointing to the exact line.
 
 ---
 
-## Phase 4: Layout Components (Navbar, Footer)
+## Phase 4: Layout Components
 
-Layout components wrap your page content and persist across all pages. They live in `src/components/layout/`.
+Layout components persist across pages: Navbar, Footer, Sidebar. They live in `src/components/layout/`.
 
 ### Step 9: ThemeToggle (`src/components/ui/ThemeToggle.tsx`)
 
-Build this first because the Navbar uses it.
+**Key concept — `"use client"`:** In Next.js App Router, components are server components by default (zero JS shipped). Anything interactive needs the `"use client"` directive.
 
-**Key concept — `"use client"`:** In Next.js App Router, components are **server components** by default (render on the server, ship zero JS). Anything interactive (clicks, state, effects) needs `"use client"` to tell Next.js it must run in the browser.
-
-**Key concept — hydration mismatch:** The server doesn't know if the user prefers dark or light mode (that's in the browser's `localStorage`). If we render the icon immediately, we'd get a flash of the wrong one. Solution: render a same-sized placeholder until the client mounts.
+**Key concept — hydration mismatch:** The server doesn't know the user's theme preference. We render a placeholder until the client mounts.
 
 ```tsx
 /* src/components/ui/ThemeToggle.tsx */
@@ -470,7 +416,6 @@ export default function ThemeToggle() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Same-size placeholder prevents layout shift
   if (!mounted) return <div className="h-9 w-9" />;
 
   return (
@@ -485,23 +430,9 @@ export default function ThemeToggle() {
 }
 ```
 
-**Notes:**
-- `aria-label` is required on icon-only buttons for screen reader accessibility
-- `hover:bg-foreground/10` = 10% opacity of the foreground color — a subtle hover that works in both themes
-
 ### Step 10: Navbar (`src/components/layout/Navbar.tsx`)
 
-The Navbar handles:
-- **Sticky positioning** — stays at the top as you scroll
-- **Backdrop blur** — frosted-glass effect when scrolled
-- **Active section highlighting** — uses `IntersectionObserver` to track which section is in view
-- **Responsive design** — horizontal links on desktop, hamburger menu on mobile
-
-**Key concepts:**
-- `useState` — React's way to track changing values (is the menu open? which section is active?)
-- `useEffect` — Runs code after render (setting up scroll/intersection listeners)
-- `IntersectionObserver` — Browser API that tells you when elements enter/leave the viewport
-- `{ passive: true }` on scroll listeners — tells the browser this handler won't block scrolling, improving performance
+Handles sticky positioning, backdrop blur on scroll, active section highlighting via `IntersectionObserver`, and responsive hamburger menu.
 
 ```tsx
 /* src/components/layout/Navbar.tsx */
@@ -512,12 +443,10 @@ import { Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { cn } from "@/lib/utils";
 
-// Each entry maps to a section's id attribute on the page.
-// To add a section: add it here AND create a section component with a matching id.
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
-  // ... add your sections
+  // Add your sections here — each href must match a section's id attribute
 ];
 
 export default function Navbar() {
@@ -525,14 +454,12 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("");
   const [scrolled, setScrolled] = useState(false);
 
-  // Track scroll position for background styling
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Track which section is in view for active link highlighting
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -540,7 +467,7 @@ export default function Navbar() {
           if (entry.isIntersecting) setActiveSection(entry.target.id);
         });
       },
-      { rootMargin: "-50% 0px -50% 0px" } // Trigger when section midpoint is in center
+      { rootMargin: "-50% 0px -50% 0px" }
     );
     navLinks.forEach(({ href }) => {
       const el = document.getElementById(href.replace("#", ""));
@@ -557,40 +484,42 @@ export default function Navbar() {
         : "bg-transparent"
     )}>
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-        {/* Logo */}
-        <a href="#" className="text-lg font-semibold">YourInitials</a>
+        <a href="#" className="text-lg font-semibold">Logo</a>
 
-        {/* Desktop links — hidden below md breakpoint */}
+        {/* Desktop */}
         <div className="hidden items-center gap-1 md:flex">
           {navLinks.map(({ label, href }) => (
             <a key={href} href={href} className={cn(
               "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-              activeSection === href.replace("#", "") ? "text-primary" : "text-muted hover:text-foreground"
+              activeSection === href.replace("#", "")
+                ? "text-primary"
+                : "text-muted hover:text-foreground"
             )}>{label}</a>
           ))}
           <ThemeToggle />
         </div>
 
-        {/* Mobile hamburger — shown below md breakpoint */}
+        {/* Mobile */}
         <div className="flex items-center gap-2 md:hidden">
           <ThemeToggle />
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="rounded-md p-2 hover:bg-foreground/10"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenuOpen}>
+            aria-expanded={mobileMenuOpen}
+          >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </nav>
 
-      {/* Mobile dropdown */}
       {mobileMenuOpen && (
         <div className="border-t border-border bg-background px-4 pb-4 md:hidden">
           {navLinks.map(({ label, href }) => (
-            <a key={href} href={href} onClick={() => setMobileMenuOpen(false)}
-              className="block rounded-md px-3 py-2 text-sm font-medium text-muted hover:text-foreground">
-              {label}
-            </a>
+            <a key={href} href={href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="block rounded-md px-3 py-2 text-sm font-medium text-muted hover:text-foreground"
+            >{label}</a>
           ))}
         </div>
       )}
@@ -599,55 +528,47 @@ export default function Navbar() {
 }
 ```
 
-**Responsive pattern:** `hidden md:flex` means "hidden by default (mobile), visible as flex above 768px". This is Tailwind's mobile-first approach — write mobile styles first, override for larger screens.
+**For multi-page sites**, replace `#section` anchors with page routes (`/about`, `/blog`) and use `usePathname()` from `next/navigation` for active link highlighting instead of `IntersectionObserver`.
 
 ### Step 11: Footer (`src/components/layout/Footer.tsx`)
 
-The simplest layout component. No `"use client"` needed — it's a server component (zero JS shipped).
-
-**Important: brand icons.** Libraries like `lucide-react` don't include brand logos (GitHub, LinkedIn, Twitter) due to trademark licensing. Use inline SVGs for these. The SVGs should use `fill="currentColor"` so they inherit text color and adapt to light/dark mode automatically.
+No `"use client"` needed — pure server component, zero JS shipped.
 
 ```tsx
 /* src/components/layout/Footer.tsx */
-import { Mail } from "lucide-react";
 
-// Brand icons as inline SVGs (lucide-react doesn't include brand logos)
-function GithubIcon({ className }: { className?: string }) {
+export default function Footer() {
   return (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387..." />
-    </svg>
+    <footer className="border-t border-border py-8">
+      <div className="mx-auto max-w-5xl px-4 text-center text-sm text-muted">
+        <p>&copy; {new Date().getFullYear()} Your Name. All rights reserved.</p>
+      </div>
+    </footer>
   );
 }
-// Get full SVG paths from https://simpleicons.org
-
-// Map string names (from data files) to React components
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Github: GithubIcon,
-  Mail,
-};
 ```
 
-**The icon mapping pattern** bridges your data layer (stores icon names as strings) with React (needs components to render). This keeps data files free of React imports.
+**Brand icons note:** `lucide-react` doesn't include brand logos (GitHub, LinkedIn, Twitter) due to trademark licensing. Create inline SVG components with `fill="currentColor"` so they adapt to themes. Get paths from [Simple Icons](https://simpleicons.org). Alternative: use `react-icons` or `@icons-pack/react-simple-icons`.
 
-### Wire Layout into Root Layout
+### Step 12: Wire Layout into Root Layout
 
-Add Navbar and Footer to `src/app/layout.tsx` so they appear on every page:
+Update `src/app/layout.tsx`:
 
 ```tsx
-/* In src/app/layout.tsx — inside ThemeProvider: */
 <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+  <a
+    href="#main-content"
+    className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-20 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+  >
+    Skip to content
+  </a>
   <Navbar />
-  <main className="flex-1">{children}</main>
+  <main id="main-content" className="flex-1">{children}</main>
   <Footer />
 </ThemeProvider>
 ```
 
-**Critical:** Add `flex flex-col` to `<body>` and `flex-1` to `<main>`. This is a flexbox trick that makes the footer stick to the bottom even on short pages:
-- `<body>` is a column flex container spanning full screen height (`min-h-screen`)
-- `<main>` grows to fill available space (`flex-1`)
-- `<Footer>` sits at the bottom naturally — no sticky/fixed positioning needed
+The `flex-1` on `<main>` + `flex flex-col min-h-screen` on `<body>` makes the footer stick to the bottom on short pages.
 
 **Verify:**
 ```bash
@@ -656,18 +577,16 @@ npm run build
 
 ---
 
-## Phase 5: Section Components
+## Phase 5: Pages & Sections
 
-Now you build the actual content sections. Each section is a React component in `src/components/sections/` that imports its data from `src/data/`.
+### Step 13: Reusable UI Components
 
-### Reusable Components First
+Build small presentational components before sections:
 
-Before building sections, create reusable UI pieces they'll share.
-
-**SectionHeading** (`src/components/ui/SectionHeading.tsx`) — Consistent heading for every section. Takes a `title` string, renders an `<h2>` with an accent underline. Ensures heading hierarchy is correct for accessibility/SEO.
-
+**SectionHeading** — consistent heading for every section:
 ```tsx
-export default function SectionHeading({ title }: { title: string; className?: string }) {
+/* src/components/ui/SectionHeading.tsx */
+export default function SectionHeading({ title }: { title: string }) {
   return (
     <div className="mb-12">
       <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
@@ -677,166 +596,922 @@ export default function SectionHeading({ title }: { title: string; className?: s
 }
 ```
 
-**Card components** (ProjectCard, ExperienceCard, SkillBadge) — Small presentational components that receive a single item via props and render it. Benefits:
-- The section component handles layout (grid, stack, timeline)
-- The card handles its own internal styling
-- Cards are reusable in different layouts without changes
+**Card** — generic content card:
+```tsx
+/* src/components/ui/Card.tsx */
+import { cn } from "@/lib/utils";
 
-### Building Each Section
+export default function Card({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn(
+      "rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:border-primary/50 hover:shadow-lg",
+      className
+    )}>
+      {children}
+    </div>
+  );
+}
+```
 
-**Every section follows this pattern:**
+**Badge** — pill-shaped tag:
+```tsx
+/* src/components/ui/Badge.tsx */
+export default function Badge({ label }: { label: string }) {
+  return (
+    <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+      {label}
+    </span>
+  );
+}
+```
+
+### Step 14: Building Sections
+
+Every section follows this structure:
+
 ```tsx
 <section id="section-name" className="py-16 md:py-24">
   <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
     <SectionHeading title="Section Title" />
-    {/* Section content */}
+    {/* Content */}
   </div>
 </section>
 ```
 
-- `id` attribute = enables navbar anchor linking (`href="#section-name"`)
-- `py-16 md:py-24` = vertical padding (4rem mobile, 6rem desktop)
-- `max-w-5xl` = constrains content width (64rem). Use `max-w-3xl` for text-heavy sections.
-- `px-4 sm:px-6 lg:px-8` = horizontal padding that grows on wider screens
+- `id` — enables anchor linking (`href="#section-name"`)
+- `py-16 md:py-24` — vertical padding (4rem mobile, 6rem desktop)
+- `max-w-5xl` — constrains width. Use `max-w-3xl` for text-heavy sections, `max-w-7xl` for wide layouts.
 
-**Section types and their layouts:**
+**Common layout patterns:**
 
-| Section | Layout Pattern | Key Tailwind |
-|---------|---------------|--------------|
-| **Hero** | Centered, full viewport | `min-h-[calc(100vh-4rem)] text-center` |
-| **About** | Narrow text column | `max-w-3xl space-y-4 leading-relaxed` |
-| **Education** | Single card with sub-sections | `rounded-xl border bg-card p-6` |
-| **Experience** | Vertical stack of cards | `space-y-6` with ExperienceCard children |
-| **Projects** | Responsive grid | `grid gap-6 sm:grid-cols-2 lg:grid-cols-3` |
-| **Research** | Card(s) with icon header | Similar to Experience but with icon badge |
-| **Skills** | Grid of grouped pill badges | `grid sm:grid-cols-2 lg:grid-cols-3` with `flex-wrap` pills |
-| **Resume** | Centered CTA | `text-center` with download button |
-| **Contact** | Centered with email + social links | `text-center` with icon row |
+| Layout | Tailwind Classes | Good For |
+|--------|-----------------|----------|
+| Centered hero | `min-h-[calc(100vh-4rem)] flex items-center justify-center text-center` | Landing sections |
+| Responsive grid | `grid gap-6 sm:grid-cols-2 lg:grid-cols-3` | Cards, features, products |
+| Vertical stack | `space-y-6` | Timeline, FAQ, experience |
+| Two-column | `grid gap-8 lg:grid-cols-2` | Text + image, sidebar content |
+| Masonry-like | `columns-1 sm:columns-2 lg:columns-3 gap-6` | Gallery, testimonials |
+| Pill/tag list | `flex flex-wrap gap-2` | Skills, tags, categories |
 
-**Useful Tailwind patterns for sections:**
+**Useful Tailwind patterns:**
+- `mt-auto` in `flex-col` — pushes content to the bottom of a flex container (aligns card grids)
+- `bg-primary/10` — 10% opacity of primary color (subtle tinted badges)
+- `space-y-N` — consistent vertical gaps between children
+- `prose` — Tailwind Typography plugin for rich text/markdown content
+- `line-clamp-3` — truncate text to 3 lines with ellipsis
 
-1. **`space-y-N`** — Adds consistent vertical gaps between children (e.g., `space-y-4` = 1rem between paragraphs)
-2. **`flex-wrap gap-2`** — Items flow left-to-right and wrap to next line. Perfect for tag/badge lists.
-3. **`mt-auto` in `flex-col`** — Pushes content to the bottom of a card. Keeps card grids aligned when content heights vary.
-4. **`bg-primary/10`** — 10% opacity of your primary color. Great for subtle tinted badges.
-5. **`uppercase tracking-wider text-sm`** — Label-style text for category headings.
+### Step 15: Assemble the Page
 
-### Assembling the Page
-
-`src/app/page.tsx` is a pure composition component — it imports all sections and renders them in order:
+`src/app/page.tsx` composes all sections:
 
 ```tsx
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
-// ... import all sections
+// ... all section imports
 
 export default function Home() {
   return (
     <>
       <Hero />
       <About />
-      {/* ... all sections in desired order */}
+      {/* All sections in desired order */}
     </>
   );
 }
 ```
 
-`<>...</>` is a React Fragment — wraps multiple elements without adding an extra DOM node. The `<main>` wrapper is already in `layout.tsx`.
-
-To rearrange sections, just move the imports. To add a new section, create the component and drop it in.
+`<>...</>` is a React Fragment — wraps elements without adding a DOM node.
 
 ### Static Files
 
-Place downloadable files (resume PDF, etc.) in the `public/` folder. Next.js serves them at the root URL:
-- File at `public/resume.pdf` → accessible at `/resume.pdf`
-- File at `public/images/headshot.jpg` → accessible at `/images/headshot.jpg`
-
-### Brand Icons Gotcha
-
-Icon libraries like `lucide-react` typically don't include brand logos (GitHub, LinkedIn, Twitter/X) due to trademark licensing. Solutions:
-1. **Inline SVGs** — Get paths from [Simple Icons](https://simpleicons.org), wrap in a React component with `fill="currentColor"` for theme adaptation
-2. **`react-icons`** — Alternative library that includes brand icons (heavier bundle)
-3. **`@icons-pack/react-simple-icons`** — Dedicated brand icon package
+Place downloadable files in `public/`. Next.js serves them at the root URL:
+- `public/resume.pdf` → `/resume.pdf`
+- `public/images/logo.png` → `/images/logo.png`
 
 **Verify:**
 ```bash
 npm run build
 ```
-Should compile all sections with zero errors.
 
 ---
 
-## Phase 6: Polish (SEO, Accessibility)
+## Phase 6: Multi-Page Routing
 
-### Step 23: SEO Setup
+Next.js App Router uses folder-based routing. Each folder inside `src/app/` with a `page.tsx` becomes a route.
 
-SEO (Search Engine Optimization) makes your site discoverable in search results. Three files to add:
+### Step 16: Static Routes
 
-**1. `src/app/robots.ts`** — Tells crawlers which pages to index:
+```
+src/app/
+├── page.tsx              → /
+├── about/page.tsx        → /about
+├── blog/page.tsx         → /blog
+├── contact/page.tsx      → /contact
+└── pricing/page.tsx      → /pricing
+```
+
+Each `page.tsx` is a default export:
+```tsx
+/* src/app/about/page.tsx */
+export default function AboutPage() {
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-16">
+      <h1 className="text-4xl font-bold">About</h1>
+      <p className="mt-4 text-muted">Content here...</p>
+    </div>
+  );
+}
+```
+
+### Step 17: Dynamic Routes
+
+Square brackets create parameterized routes:
+
+```
+src/app/blog/[slug]/page.tsx    → /blog/my-first-post, /blog/another-post
+src/app/users/[id]/page.tsx     → /users/123, /users/456
+```
+
+```tsx
+/* src/app/blog/[slug]/page.tsx */
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default async function BlogPost({ params }: PageProps) {
+  const { slug } = await params;
+  // Fetch post data using slug
+  return <article>{/* Post content */}</article>;
+}
+
+// Optional: pre-generate pages at build time for static sites
+export async function generateStaticParams() {
+  return [
+    { slug: "first-post" },
+    { slug: "second-post" },
+  ];
+}
+```
+
+### Step 18: Nested Layouts
+
+Each route can have its own `layout.tsx` that wraps its child pages:
+
+```
+src/app/
+├── layout.tsx                  ← Root layout (Navbar + Footer)
+├── (marketing)/
+│   ├── layout.tsx              ← Marketing layout (maybe no sidebar)
+│   ├── page.tsx                → /
+│   └── pricing/page.tsx        → /pricing
+└── dashboard/
+    ├── layout.tsx              ← Dashboard layout (sidebar + header)
+    ├── page.tsx                → /dashboard
+    └── settings/page.tsx       → /dashboard/settings
+```
+
+**Route groups** `(parentheses)` organize routes without affecting the URL. `(marketing)` doesn't add `/marketing/` to the path.
+
+```tsx
+/* src/app/dashboard/layout.tsx */
+import Sidebar from "@/components/layout/Sidebar";
+
+export default function DashboardLayout({
+  children,
+}: { children: React.ReactNode }) {
+  return (
+    <div className="flex">
+      <Sidebar />
+      <main className="flex-1 p-8">{children}</main>
+    </div>
+  );
+}
+```
+
+### Step 19: Loading & Error States
+
+```tsx
+/* src/app/blog/loading.tsx — shown while page data loads */
+export default function Loading() {
+  return (
+    <div className="flex items-center justify-center py-24">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+    </div>
+  );
+}
+
+/* src/app/blog/error.tsx — shown when page throws an error */
+"use client";
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error;
+  reset: () => void;
+}) {
+  return (
+    <div className="py-24 text-center">
+      <h2 className="text-2xl font-bold">Something went wrong</h2>
+      <button onClick={reset} className="mt-4 rounded-lg bg-primary px-4 py-2 text-primary-foreground">
+        Try again
+      </button>
+    </div>
+  );
+}
+```
+
+### Step 20: Not Found Page
+
+```tsx
+/* src/app/not-found.tsx */
+import Link from "next/link";
+
+export default function NotFound() {
+  return (
+    <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+      <h1 className="text-6xl font-bold">404</h1>
+      <p className="mt-4 text-lg text-muted">Page not found.</p>
+      <Link href="/" className="mt-6 rounded-lg bg-primary px-6 py-3 text-primary-foreground">
+        Go Home
+      </Link>
+    </div>
+  );
+}
+```
+
+---
+
+## Phase 7: API Routes & Server Actions
+
+### Step 21: API Routes
+
+Create API endpoints at `src/app/api/[route]/route.ts`:
+
+```ts
+/* src/app/api/contact/route.ts */
+import { NextRequest, NextResponse } from "next/server";
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const { name, email, message } = body;
+
+  // Validate
+  if (!name || !email || !message) {
+    return NextResponse.json(
+      { error: "All fields required" },
+      { status: 400 }
+    );
+  }
+
+  // Process (send email, save to DB, etc.)
+  // await sendEmail({ to: "you@example.com", subject: `From ${name}`, body: message });
+
+  return NextResponse.json({ success: true });
+}
+
+export async function GET() {
+  // Return data
+  return NextResponse.json({ status: "ok" });
+}
+```
+
+Accessible at `POST /api/contact` and `GET /api/contact`.
+
+### Step 22: Server Actions
+
+Server Actions run on the server but are called directly from client components — no API route needed. Simpler for form submissions and mutations.
+
+```tsx
+/* src/app/actions.ts */
+"use server";
+
+export async function submitContactForm(formData: FormData) {
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const message = formData.get("message") as string;
+
+  // Validate, save to DB, send email, etc.
+
+  return { success: true };
+}
+```
+
+Use in a component:
+```tsx
+"use client";
+import { submitContactForm } from "@/app/actions";
+
+export default function ContactForm() {
+  return (
+    <form action={submitContactForm}>
+      <input name="name" required />
+      <input name="email" type="email" required />
+      <textarea name="message" required />
+      <button type="submit">Send</button>
+    </form>
+  );
+}
+```
+
+---
+
+## Phase 8: Forms & Validation
+
+### Step 23: React Hook Form + Zod
+
+For complex forms, use `react-hook-form` for state management and `zod` for schema validation:
+
+```bash
+npm install react-hook-form zod @hookform/resolvers
+```
+
+```tsx
+"use client";
+
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type FormData = z.infer<typeof schema>;
+
+export default function ContactForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+
+  async function onSubmit(data: FormData) {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) reset();
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div>
+        <input
+          {...register("name")}
+          placeholder="Name"
+          className="w-full rounded-lg border border-border bg-background px-4 py-2"
+        />
+        {errors.name && (
+          <p className="mt-1 text-sm text-destructive">{errors.name.message}</p>
+        )}
+      </div>
+      <div>
+        <input
+          {...register("email")}
+          type="email"
+          placeholder="Email"
+          className="w-full rounded-lg border border-border bg-background px-4 py-2"
+        />
+        {errors.email && (
+          <p className="mt-1 text-sm text-destructive">{errors.email.message}</p>
+        )}
+      </div>
+      <div>
+        <textarea
+          {...register("message")}
+          placeholder="Message"
+          rows={4}
+          className="w-full rounded-lg border border-border bg-background px-4 py-2"
+        />
+        {errors.message && (
+          <p className="mt-1 text-sm text-destructive">{errors.message.message}</p>
+        )}
+      </div>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="rounded-lg bg-primary px-6 py-2 text-primary-foreground disabled:opacity-50"
+      >
+        {isSubmitting ? "Sending..." : "Send"}
+      </button>
+    </form>
+  );
+}
+```
+
+**For simple forms** (newsletter signup, search), native HTML validation + a Server Action is enough. Only add `react-hook-form` + `zod` when you have multiple fields, complex validation, or need fine-grained error handling.
+
+---
+
+## Phase 9: Database Integration
+
+### Step 24: Prisma Setup
+
+Prisma is the most popular TypeScript ORM. Type-safe queries, auto-generated client, visual DB browser.
+
+```bash
+npm install prisma @prisma/client
+npx prisma init
+```
+
+This creates `prisma/schema.prisma`. Define your models:
+
+```prisma
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"    // or "mysql", "sqlite", "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+}
+
+model User {
+  id    String @id @default(cuid())
+  email String @unique
+  name  String?
+  posts Post[]
+}
+```
+
+```bash
+# Create/update database tables from your schema
+npx prisma db push
+
+# Generate the TypeScript client
+npx prisma generate
+
+# Visual database browser
+npx prisma studio
+```
+
+**Create a singleton client** (`src/lib/db.ts`):
+```ts
+import { PrismaClient } from "@prisma/client";
+
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+
+export const db = globalForPrisma.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+```
+
+**Use in server components or API routes:**
+```tsx
+import { db } from "@/lib/db";
+
+export default async function BlogPage() {
+  const posts = await db.post.findMany({
+    where: { published: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return (
+    <div>
+      {posts.map((post) => (
+        <article key={post.id}>
+          <h2>{post.title}</h2>
+          <p>{post.content}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+```
+
+**Database providers for Vercel:**
+- **Vercel Postgres** (`@vercel/postgres`) — managed PostgreSQL, tight integration
+- **PlanetScale** — serverless MySQL
+- **Supabase** — PostgreSQL + auth + real-time
+- **Neon** — serverless PostgreSQL
+- **SQLite** (local dev only) — change provider to `"sqlite"`, no server needed
+
+Add `DATABASE_URL` to your `.env` file (never commit this):
+```
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
+```
+
+On Vercel: Settings → Environment Variables → add `DATABASE_URL`.
+
+### Step 25: Alternative — Drizzle ORM
+
+Lighter-weight alternative to Prisma. SQL-like syntax, smaller bundle:
+
+```bash
+npm install drizzle-orm postgres
+npm install -D drizzle-kit
+```
+
+```ts
+/* src/lib/schema.ts */
+import { pgTable, text, boolean, timestamp } from "drizzle-orm/pg-core";
+
+export const posts = pgTable("posts", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull(),
+  content: text("content"),
+  published: boolean("published").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+```
+
+---
+
+## Phase 10: Authentication
+
+### Step 26: Auth.js (NextAuth)
+
+```bash
+npm install next-auth@beta
+```
+
+```ts
+/* src/auth.ts */
+import NextAuth from "next-auth";
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [
+    GitHub({
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
+    }),
+    Google({
+      clientId: process.env.GOOGLE_ID!,
+      clientSecret: process.env.GOOGLE_SECRET!,
+    }),
+    // Email/password (requires your own verification logic)
+    Credentials({
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (credentials) => {
+        // Verify against your database
+        return null; // Return user object or null
+      },
+    }),
+  ],
+});
+```
+
+```ts
+/* src/app/api/auth/[...nextauth]/route.ts */
+import { handlers } from "@/auth";
+export const { GET, POST } = handlers;
+```
+
+**Protect pages:**
+```tsx
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
+export default async function DashboardPage() {
+  const session = await auth();
+  if (!session) redirect("/login");
+
+  return <div>Welcome, {session.user?.name}</div>;
+}
+```
+
+**Protect API routes:**
+```ts
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  const session = await auth();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  // ... handle authenticated request
+}
+```
+
+**Middleware** — protect entire route groups:
+```ts
+/* src/middleware.ts */
+export { auth as middleware } from "@/auth";
+
+export const config = {
+  matcher: ["/dashboard/:path*", "/admin/:path*"],
+};
+```
+
+---
+
+## Phase 11: State Management
+
+### Step 27: When to Use What
+
+| Approach | Use When |
+|----------|----------|
+| `useState` | Local component state (toggle, form input, counter) |
+| `useContext` | Shared state across a subtree (theme, locale, auth) |
+| URL search params | Filterable/sortable lists, paginated content |
+| `zustand` | Global client state that many components read/write |
+| `@tanstack/react-query` | Server data with caching, refetching, optimistic updates |
+| Server components | Data that doesn't change based on user interaction |
+
+### Step 28: Zustand (Global State)
+
+```bash
+npm install zustand
+```
+
+```ts
+/* src/lib/stores/cart-store.ts */
+import { create } from "zustand";
+
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface CartStore {
+  items: CartItem[];
+  addItem: (item: Omit<CartItem, "quantity">) => void;
+  removeItem: (id: string) => void;
+  clearCart: () => void;
+  total: () => number;
+}
+
+export const useCartStore = create<CartStore>((set, get) => ({
+  items: [],
+  addItem: (item) =>
+    set((state) => {
+      const existing = state.items.find((i) => i.id === item.id);
+      if (existing) {
+        return {
+          items: state.items.map((i) =>
+            i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          ),
+        };
+      }
+      return { items: [...state.items, { ...item, quantity: 1 }] };
+    }),
+  removeItem: (id) =>
+    set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
+  clearCart: () => set({ items: [] }),
+  total: () => get().items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+}));
+```
+
+Use in any client component:
+```tsx
+"use client";
+import { useCartStore } from "@/lib/stores/cart-store";
+
+export default function CartButton() {
+  const items = useCartStore((state) => state.items);
+  return <button>Cart ({items.length})</button>;
+}
+```
+
+### Step 29: URL State for Filters
+
+```tsx
+"use client";
+import { useSearchParams, useRouter } from "next/navigation";
+
+export default function FilterBar() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const currentCategory = searchParams.get("category") || "all";
+
+  function setCategory(category: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("category", category);
+    router.push(`?${params.toString()}`);
+  }
+
+  return (
+    <div className="flex gap-2">
+      {["all", "frontend", "backend", "design"].map((cat) => (
+        <button
+          key={cat}
+          onClick={() => setCategory(cat)}
+          className={cn(
+            "rounded-full px-4 py-1 text-sm",
+            currentCategory === cat ? "bg-primary text-primary-foreground" : "bg-card"
+          )}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+  );
+}
+```
+
+Benefits: shareable URLs, browser back/forward works, SSR-compatible.
+
+---
+
+## Phase 12: Animations & Transitions
+
+### Step 30: CSS Transitions (No Library)
+
+Tailwind includes transition utilities:
+```tsx
+<div className="transition-all duration-300 hover:scale-105 hover:shadow-lg">
+  Hover me
+</div>
+
+<div className={cn(
+  "transition-all duration-300",
+  isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+)}>
+  Collapsible content
+</div>
+```
+
+### Step 31: Framer Motion
+
+```bash
+npm install framer-motion
+```
+
+**Fade-in on scroll:**
+```tsx
+"use client";
+import { motion } from "framer-motion";
+
+export default function FadeInSection({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+```
+
+**Staggered list animation:**
+```tsx
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+};
+
+<motion.div variants={container} initial="hidden" animate="show">
+  {items.map((i) => (
+    <motion.div key={i.id} variants={item}>
+      {i.name}
+    </motion.div>
+  ))}
+</motion.div>
+```
+
+**Page transitions** with `layout.tsx`:
+```tsx
+"use client";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+
+export default function PageTransition({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+```
+
+---
+
+## Phase 13: SEO & Accessibility
+
+### Step 32: SEO Files
+
+**`src/app/robots.ts`:**
 ```ts
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: "*", allow: "/" },
-    sitemap: "https://yourdomain.com/sitemap.xml",  // Update with your domain
+    sitemap: "https://yourdomain.com/sitemap.xml",
   };
 }
 ```
-Next.js automatically serves this as `/robots.txt`.
 
-**2. `src/app/sitemap.ts`** — Lists all URLs for crawlers:
+**`src/app/sitemap.ts`:**
 ```ts
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: "https://yourdomain.com",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    // Add more pages here if you have /blog, /projects/[slug], etc.
-  ];
+  const staticPages = ["", "/about", "/blog", "/contact"].map((route) => ({
+    url: `https://yourdomain.com${route}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: route === "" ? 1 : 0.8,
+  }));
+
+  // For dynamic pages, fetch slugs from DB:
+  // const posts = await db.post.findMany({ select: { slug: true, updatedAt: true } });
+  // const postPages = posts.map(p => ({ url: `https://yourdomain.com/blog/${p.slug}`, ... }));
+
+  return [...staticPages];
 }
 ```
 
-**3. Open Graph + JSON-LD in `layout.tsx`:**
+### Step 33: Metadata & Structured Data
 
-Add Open Graph meta tags to your `metadata` export for social sharing previews:
-```ts
+**Per-page metadata:**
+```tsx
+/* src/app/about/page.tsx */
+import type { Metadata } from "next";
+
 export const metadata: Metadata = {
-  title: "Your Title",
-  description: "Your description",
+  title: "About | Site Name",
+  description: "Learn more about us.",
   openGraph: {
-    title: "Your Title",
-    description: "Your description",
+    title: "About | Site Name",
+    description: "Learn more about us.",
     type: "website",
     locale: "en_US",
+    images: [{ url: "/images/og-about.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Your Title",
-    description: "Your description",
+    title: "About | Site Name",
+    description: "Learn more about us.",
   },
 };
 ```
 
-Add JSON-LD structured data (machine-readable info for Google rich results):
-```ts
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",           // Or "Organization", "Product", etc.
-  name: "Your Name",
-  jobTitle: "Your Title",
-  url: "https://yourdomain.com",
-  sameAs: ["https://github.com/you", "https://linkedin.com/in/you"],
-};
+**Dynamic metadata for dynamic routes:**
+```tsx
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPost(slug);
+  return {
+    title: post.title,
+    description: post.summary,
+  };
+}
 ```
 
-Inject it into `<head>`:
+**JSON-LD structured data** (add to layout or individual pages):
 ```tsx
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",          // Or "Person", "Organization", "Product", "Blog", etc.
+  name: "Site Name",
+  url: "https://yourdomain.com",
+};
+
+// In your component's return:
 <head>
   <script
     type="application/ld+json"
@@ -845,117 +1520,166 @@ Inject it into `<head>`:
 </head>
 ```
 
-**Schema types for different sites:**
-- Portfolio/personal: `"@type": "Person"`
-- Business/SaaS: `"@type": "Organization"` or `"@type": "SoftwareApplication"`
-- Blog: `"@type": "Blog"` with `"@type": "BlogPosting"` for each post
-- E-commerce: `"@type": "Product"` with pricing and review data
+### Step 34: Accessibility Checklist
 
-### Step 24: Accessibility
-
-**Skip-to-content link** — essential for keyboard and screen reader users. Add it at the top of `<body>`, before the Navbar:
-
-```tsx
-<a
-  href="#main-content"
-  className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-20 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
->
-  Skip to content
-</a>
-```
-
-And add `id="main-content"` to your `<main>` tag.
-
-**How `sr-only` + `focus:not-sr-only` works:**
-- `sr-only` hides the element visually but keeps it in the accessibility tree
-- `focus:not-sr-only` makes it visible when the user Tabs to it
-- Mouse users never see it; keyboard users see it immediately
-
-**Accessibility checklist for any site:**
-- [ ] Semantic HTML: `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`
-- [ ] Single `<h1>` per page, proper `<h2>`→`<h3>` hierarchy
-- [ ] `aria-label` on all icon-only buttons and links
-- [ ] `alt` text on all images
-- [ ] Sufficient color contrast (4.5:1 for text — check at [webaim.org/resources/contrastchecker](https://webaim.org/resources/contrastchecker/))
-- [ ] Focus-visible outlines on interactive elements
-- [ ] Skip-to-content link
-- [ ] `lang="en"` on `<html>` tag
+- [ ] Semantic HTML: `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`, `<article>`
+- [ ] Single `<h1>` per page, proper `<h2>` → `<h3>` hierarchy
+- [ ] `aria-label` on icon-only buttons and links
+- [ ] `alt` text on all `<img>` elements
+- [ ] Color contrast ≥ 4.5:1 for text ([webaim.org/resources/contrastchecker](https://webaim.org/resources/contrastchecker/))
+- [ ] Focus-visible outlines on interactive elements (Tailwind's `focus-visible:ring-2`)
+- [ ] Skip-to-content link (see Step 12)
+- [ ] `lang="en"` on `<html>`
 - [ ] `target="_blank"` links have `rel="noopener noreferrer"`
+- [ ] Forms have associated `<label>` elements or `aria-label`
+- [ ] Error messages are linked to inputs via `aria-describedby`
+- [ ] No content conveyed by color alone
+- [ ] Keyboard navigation works for all interactive elements
 
-**Verify the build:**
+**Verify:**
 ```bash
 npm run build
 ```
-You should see `/robots.txt` and `/sitemap.xml` in the routes list.
+Check that `/robots.txt` and `/sitemap.xml` appear in the routes list.
 
 ---
 
-## Phase 7: Deployment
+## Phase 14: Testing
 
-Your site is built — now get it on the internet. Three main options depending on your needs.
+### Step 35: Unit & Component Tests
 
-### Option A: Vercel (Recommended for Next.js)
-
-Vercel is made by the same team that builds Next.js. Zero-config deployment, free tier, automatic rebuilds on every `git push`.
-
-**First-time setup (browser):**
-
-1. Go to [vercel.com/signup](https://vercel.com/signup) and sign up with your GitHub account
-2. Click **"Add New…" → "Project"**
-3. Select your repository from the list
-4. Vercel auto-detects Next.js — default settings are correct:
-   - Framework Preset: `Next.js`
-   - Build Command: `next build`
-   - Output Directory: `.next`
-5. Click **"Deploy"** — takes ~1-2 minutes
-6. You get a URL like `your-project-abc123.vercel.app`
-
-**No config changes needed.** Your `next.config.ts` can stay as-is.
-
-**After first deploy:** Every `git push` to `main` automatically redeploys.
-
-**CLI option (install once, use for previews):**
 ```bash
-npm install -g vercel   # Install globally (one time)
-vercel                  # Deploy a preview (temporary URL for testing)
-vercel --prod           # Deploy to production
+npm install -D jest @testing-library/react @testing-library/jest-dom @types/jest jest-environment-jsdom ts-jest
 ```
 
-**Custom domain:** In your Vercel project → Settings → Domains, add your domain. Vercel provisions free SSL automatically. Update your domain's DNS to point to Vercel (they show you the exact records).
-
-### Option B: GitHub Pages (Free, static only)
-
-Good for simple sites. Requires a **static export** (no server-side features like API routes or server components with database access).
-
-**Step 1 — Configure static export** in `next.config.ts`:
+**`jest.config.ts`:**
 ```ts
-import type { NextConfig } from "next";
+import type { Config } from "jest";
 
-const nextConfig: NextConfig = {
-  output: "export",      // Generates static HTML/CSS/JS files
-  images: {
-    unoptimized: true,   // Next.js image optimization doesn't work with static export
+const config: Config = {
+  testEnvironment: "jsdom",
+  setupFilesAfterSetup: ["<rootDir>/jest.setup.ts"],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
-  // If deploying to username.github.io/repo-name (not a custom domain):
-  // basePath: "/repo-name",
+  transform: {
+    "^.+\\.tsx?$": "ts-jest",
+  },
 };
 
-export default nextConfig;
+export default config;
 ```
 
-**Step 2 — Add a GitHub Actions workflow** at `.github/workflows/deploy.yml`:
+**`jest.setup.ts`:**
+```ts
+import "@testing-library/jest-dom";
+```
+
+**Example test:**
+```tsx
+/* src/components/ui/__tests__/Badge.test.tsx */
+import { render, screen } from "@testing-library/react";
+import Badge from "../Badge";
+
+describe("Badge", () => {
+  it("renders the label", () => {
+    render(<Badge label="TypeScript" />);
+    expect(screen.getByText("TypeScript")).toBeInTheDocument();
+  });
+});
+```
+
+```bash
+npx jest                    # Run all tests
+npx jest --watch            # Watch mode
+npx jest --coverage         # Coverage report
+```
+
+### Step 36: End-to-End Tests (Playwright)
+
+```bash
+npm install -D @playwright/test
+npx playwright install
+```
+
+```ts
+/* e2e/home.spec.ts */
+import { test, expect } from "@playwright/test";
+
+test("homepage loads and has correct title", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toHaveTitle(/Site Name/);
+});
+
+test("navigation works", async ({ page }) => {
+  await page.goto("/");
+  await page.click('a[href="/about"]');
+  await expect(page).toHaveURL("/about");
+});
+
+test("dark mode toggle works", async ({ page }) => {
+  await page.goto("/");
+  await page.click('[aria-label*="Switch to"]');
+  await expect(page.locator("html")).toHaveClass(/dark/);
+});
+```
+
+```bash
+npx playwright test         # Run all tests
+npx playwright test --ui    # Interactive UI mode
+```
+
+---
+
+## Phase 15: Deployment
+
+### Step 37: Deploy to Vercel
+
+Push your code to GitHub, then deploy:
+
+**First time (browser):**
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Select your repository
+3. Vercel auto-detects Next.js — default settings are correct
+4. Click **Deploy** (~1-2 minutes)
+5. You get a URL like `your-project.vercel.app`
+
+**After first deploy:** Every `git push` to `main` auto-redeploys. Pull request pushes create preview deployments.
+
+**CLI (optional):**
+```bash
+npm install -g vercel
+vercel              # Preview deployment
+vercel --prod       # Production deployment
+```
+
+**Environment variables:** Vercel dashboard → Settings → Environment Variables. Add `DATABASE_URL`, API keys, auth secrets, etc. Never commit these to git.
+
+**Custom domain:** Vercel dashboard → Settings → Domains. Add your domain, then update your DNS records (Vercel shows you exactly what to set). Free SSL included.
+
+### Step 38: Alternative — GitHub Pages (Static Only)
+
+For static sites only (no API routes, no server components with DB access).
+
+**Configure static export** in `next.config.ts`:
+```ts
+const nextConfig: NextConfig = {
+  output: "export",
+  images: { unoptimized: true },
+  // basePath: "/repo-name",  ← if not using a custom domain
+};
+```
+
+**Add `.github/workflows/deploy.yml`:**
 ```yaml
 name: Deploy to GitHub Pages
-
 on:
   push:
     branches: [main]
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -973,93 +1697,91 @@ jobs:
       - uses: actions/deploy-pages@v4
 ```
 
-**Step 3 — Enable GitHub Pages:** In your repo → Settings → Pages → Source: "GitHub Actions".
+Enable in repo Settings → Pages → Source: "GitHub Actions".
 
-**Step 4 — Push to main.** The workflow builds and deploys automatically.
+### Step 39: Post-Deployment Checklist
 
-> **Gotcha:** If your repo name isn't `username.github.io`, GitHub Pages serves at `username.github.io/repo-name`. You need `basePath: "/repo-name"` in `next.config.ts`, and all internal links must account for this prefix.
+- [ ] All pages load at production URL
+- [ ] Dark/light mode persists between visits
+- [ ] All links work (internal and external)
+- [ ] Static file downloads work (PDFs, images)
+- [ ] Mobile responsive (test on phone or [responsivedesignchecker.com](https://responsivedesignchecker.com))
+- [ ] [PageSpeed Insights](https://pagespeed.web.dev) score ≥ 90
+- [ ] [Lighthouse](https://developer.chrome.com/docs/lighthouse/) accessibility audit passes
+- [ ] Open Graph previews render correctly ([opengraph.xyz](https://opengraph.xyz))
+- [ ] Environment variables are set in Vercel dashboard
+- [ ] Error pages (404, 500) display correctly
 
-### Option C: Netlify
-
-Similar to Vercel but less Next.js-specific. Good if you already use Netlify for other projects.
-
-1. Go to [netlify.com](https://netlify.com), sign up with GitHub
-2. Click "Add new site" → "Import an existing project"
-3. Select your repo
-4. Build command: `npm run build`
-5. Publish directory: `.next` (or `out` if using static export)
-6. Click Deploy
-
-**For Next.js server features on Netlify**, install their adapter:
-```bash
-npm install @netlify/plugin-nextjs
-```
-
-### After Deployment: Checklist
-
-Once your site is live, verify:
-
-- [ ] All pages load correctly at the production URL
-- [ ] Dark/light mode works (check that `localStorage` persists between visits)
-- [ ] Resume/CV PDF downloads work
-- [ ] All external links (GitHub, LinkedIn) open in new tabs
-- [ ] Mobile responsiveness — test on your phone or at [responsivedesignchecker.com](https://responsivedesignchecker.com)
-- [ ] Run [PageSpeed Insights](https://pagespeed.web.dev) for performance score
-- [ ] Run [Lighthouse](https://developer.chrome.com/docs/lighthouse/) in Chrome DevTools for accessibility audit
-- [ ] Test your Open Graph tags at [opengraph.xyz](https://opengraph.xyz) — paste your URL and see the social preview
-
-### Ongoing: How to Update Your Site
-
-After deployment, the workflow is simple:
+### Ongoing Updates
 
 ```bash
-# 1. Edit your data files or components locally
-#    (e.g., add a new project to src/data/projects.ts)
+# 1. Edit locally
+# 2. Verify
+npm run dev
+npm run build
 
-# 2. Verify locally
-npm run dev        # Check at localhost:3000
-npm run build      # Make sure it compiles
-
-# 3. Push to GitHub — Vercel auto-deploys
-git add -A
-git commit -m "Add new project"
+# 3. Push — Vercel auto-deploys
+git add <files>
+git commit -m "Description of change"
 git push
 ```
-
-That's it — your updated site is live in ~1 minute.
 
 ---
 
 ## Quick Reference
 
-### Common Commands
+### Commands
 ```bash
-npm run dev        # Start dev server at localhost:3000
-npm run build      # Production build (catches TypeScript errors)
-npm run start      # Serve the production build locally
-npm run lint       # Run ESLint to check for code issues
-vercel             # Preview deployment
-vercel --prod      # Production deployment
+npm run dev           # Dev server at localhost:3000
+npm run build         # Production build (catches all TypeScript errors)
+npm run start         # Serve production build locally
+npm run lint          # Check for code issues
+npx prisma studio     # Visual database browser
+npx prisma db push    # Sync schema to database
+npx jest              # Run unit tests
+npx playwright test   # Run E2E tests
+vercel                # Preview deployment
+vercel --prod         # Production deployment
 ```
 
 ### Where Things Live
 | What | Where |
 |------|-------|
-| Page content | `src/data/*.ts` — edit these to update text |
-| Visual layout | `src/components/sections/*.tsx` — section components |
-| Site-wide wrapper | `src/app/layout.tsx` — navbar, footer, fonts, SEO |
-| Page composition | `src/app/page.tsx` — imports and orders sections |
-| Downloadable files | `public/` — PDFs, images, favicon |
-| Styles | `src/app/globals.css` — color scheme and global CSS |
-| Types | `src/types/index.ts` — data shape definitions |
+| Pages & routes | `src/app/` — folder = route |
+| Page content | `src/data/*.ts` |
+| Section components | `src/components/sections/*.tsx` |
+| Reusable UI | `src/components/ui/*.tsx` |
+| Layout wrappers | `src/components/layout/*.tsx` |
+| API endpoints | `src/app/api/*/route.ts` |
+| Server actions | `src/app/actions.ts` or colocated |
+| Global styles | `src/app/globals.css` |
+| Types | `src/types/index.ts` |
+| Utilities | `src/lib/*.ts` |
+| Database schema | `prisma/schema.prisma` |
+| Static files | `public/` |
+| Environment vars | `.env` (local), Vercel dashboard (production) |
 
-### Adding a New Section
+### Adding a New Section (Single-Page Site)
 1. Create `src/components/sections/NewSection.tsx`
-2. Import and render it in `src/app/page.tsx`
-3. Add `{ label: "New", href: "#new-section" }` to `navLinks` in `Navbar.tsx`
-4. Give the section `id="new-section"` to match
+2. Import and render in `src/app/page.tsx`
+3. Add `{ label: "New", href: "#new-section" }` to `navLinks` in Navbar
+4. Set `id="new-section"` on the section
 
-### Adding a New Page (multi-page site)
+### Adding a New Page (Multi-Page Site)
 1. Create `src/app/new-page/page.tsx`
-2. It's automatically available at `/new-page`
-3. Add it to your sitemap in `src/app/sitemap.ts`
+2. Auto-available at `/new-page`
+3. Add metadata export for SEO
+4. Add to `sitemap.ts`
+5. Add navigation link in Navbar
+
+### Server vs Client Components
+| Feature | Server (default) | Client (`"use client"`) |
+|---------|-----------------|------------------------|
+| Direct DB access | Yes | No |
+| `useState`, `useEffect` | No | Yes |
+| Event handlers (onClick) | No | Yes |
+| `async/await` in component | Yes | No |
+| Ships JS to browser | No | Yes |
+| Access cookies/headers | Yes | Via hooks only |
+
+**Rule of thumb:** Keep components as server components. Only add `"use client"` when you need interactivity.
