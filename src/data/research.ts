@@ -49,7 +49,30 @@ export const research: Research[] = [
     ],
     githubUrl:
       "https://github.com/AhteshamAlvi/Exoplanet-Habitability-Classification-ML-Model",
-  },
+  }, 
+  {  
+    title: "Temporal Robustness of Social Media Bot Detection Models",
+    organization: "University of Maryland, College Park",
+    role: "Undergraduate Researcher",
+    period: "February 2026 — Present",
+    description:
+      "Investigating the temporal generalization of social media bot detection models by evaluating whether classifiers trained on historical Twitter (X) datasets remain effective against modern bot behaviors.",
+    bullets: [
+      "Designed a machine learning pipeline using the Twibot-22 dataset (1M+ users, 86M tweets) to train classifiers for bot vs. human detection based on behavioral, linguistic, and network features.",
+      "Analyzed model generalization by applying trained classifiers to modern X data, quantifying performance degradation across temporal distribution shifts.",
+      "Conducted feature importance and behavioral analysis to identify which detection signals remain stable versus those that lose predictive power over time.",
+      "Evaluated models using accuracy, precision, recall, and F1-score, and investigated failure modes to distinguish overfitting from true evolution in bot strategies.",
+      "Explored adaptive modeling strategies and feature redesign approaches to improve robustness of bot detection systems in evolving social environments."
+    ],
+    technologies: [
+      "Python",
+      "Scikit-learn",
+      "PyTorch",
+      "Network Analysis",
+      "Machine Learning",
+      "Data Analysis"
+    ],
+  }, 
   {
     title: "Bioinspired Robotics — Flapping Winged Glider (RoboRaptor)",
     organization:
