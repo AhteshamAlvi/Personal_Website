@@ -36,6 +36,7 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
+    handleScroll(); // Check immediately on mount (fixes navbar flash on mid-page refresh)
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);

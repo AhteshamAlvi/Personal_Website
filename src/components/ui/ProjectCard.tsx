@@ -45,13 +45,13 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       <h3 className="text-lg font-semibold">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-muted">{description}</p>
 
-      <div className="mt-4 space-y-1.5">
+      <div className="mt-auto" />
+
+      <div className="mt-4 flex flex-wrap gap-2">
         {ratingLabels.map(({ key, label }) => (
           <RatingBar key={key} label={label} value={ratings[key]} />
         ))}
       </div>
-
-      <div className="mt-auto" />
 
       <div className="mt-4 flex flex-wrap gap-2">
         {technologies.map((tech) => (
