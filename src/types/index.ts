@@ -4,6 +4,12 @@
   If you rename a field, TypeScript will flag every place that needs updating.
 */
 
+export interface ProjectRatings {
+  complexity: number;  // 1–5: technical depth of the implementation
+  impact: number;      // 1–5: usefulness or real-world significance
+  innovation: number;  // 1–5: creativity and uniqueness of approach
+}
+
 export interface Project {
   title: string;
   description: string;
@@ -11,6 +17,7 @@ export interface Project {
   githubUrl: string;
   liveUrl?: string; // "?" means optional — not every project has a live demo
   featured?: boolean;
+  ratings: ProjectRatings;
 }
 
 export interface Experience {

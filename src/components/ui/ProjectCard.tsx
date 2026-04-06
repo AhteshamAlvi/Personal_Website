@@ -6,19 +6,50 @@ import { GithubIcon } from "@/components/ui/Icons";
   ProjectCard — renders a single project in a card format.
   Uses "flex flex-col" + "mt-auto" to push tech tags and links
   to the bottom, keeping cards aligned in a grid.
+  Includes rating bars for complexity, impact, and innovation.
 */
 
 interface ProjectCardProps {
   project: Project;
 }
 
+const ratingLabels = [
+  { key: "complexity" as const, label: "Complexity" },
+  { key: "impact" as const, label: "Impact" },
+  { key: "innovation" as const, label: "Innovation" },
+];
+
+function RatingBar({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="w-20 text-xs text-muted">{label}</span>
+      <div className="flex flex-1 gap-1">
+        {Array.from({ length: 5 }, (_, i) => (
+          <div
+            key={i}
+            className={`h-1.5 flex-1 rounded-full ${
+              i < value ? "bg-primary" : "bg-border"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const { title, description, technologies, githubUrl, liveUrl } = project;
+  const { title, description, technologies, githubUrl, liveUrl, ratings } = project;
 
   return (
     <div className="flex flex-col rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:border-primary/50 hover:shadow-lg">
       <h3 className="text-lg font-semibold">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-muted">{description}</p>
+
+      <div className="mt-4 space-y-1.5">
+        {ratingLabels.map(({ key, label }) => (
+          <RatingBar key={key} label={label} value={ratings[key]} />
+        ))}
+      </div>
 
       <div className="mt-auto" />
 

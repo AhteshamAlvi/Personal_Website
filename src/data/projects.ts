@@ -17,6 +17,7 @@ export const projects: Project[] = [
     githubUrl:
       "https://github.com/AhteshamAlvi/Robotics-Arm-Manipulator-Control",
     featured: true,
+    ratings: { complexity: 5, impact: 4, innovation: 4 },
   },
   {
     title: "Mini C Compiler",
@@ -25,6 +26,7 @@ export const projects: Project[] = [
     technologies: ["OCaml", "Compiler Design", "Type Theory"],
     githubUrl: "https://github.com/AhteshamAlvi/mini_C_compiler",
     featured: true,
+    ratings: { complexity: 5, impact: 3, innovation: 4 },
   },
   {
     title: "Quantum Computing Projects",
@@ -32,6 +34,7 @@ export const projects: Project[] = [
       "Quantum circuit implementations in Qiskit including Grover's search, Shor's factoring algorithm, and parameterized circuits for Quantum ML classification experiments on IBM Quantum hardware.",
     technologies: ["Qiskit", "Python", "IBM Quantum", "Quantum ML"],
     githubUrl: "https://github.com/AhteshamAlvi/Quantum_Projects",
+    ratings: { complexity: 4, impact: 3, innovation: 5 },
   },
   {
     title: "Education Inequality ML Project",
@@ -40,6 +43,7 @@ export const projects: Project[] = [
     technologies: ["Python", "Scikit-learn", "Pandas", "Data Visualization"],
     githubUrl:
       "https://github.com/AhteshamAlvi/Education_Inequality_MLproject",
+    ratings: { complexity: 3, impact: 4, innovation: 3 },
   },
   {
     title: "AST-Based Unix Shell",
@@ -47,6 +51,7 @@ export const projects: Project[] = [
       "Unix-style shell in C using a lexer and recursive-descent parser to build an AST with correct operator precedence. Supports pipes, sequencing, logical operators, subshells, I/O redirection, and built-ins.",
     technologies: ["C", "Systems Programming", "Parsing", "Unix"],
     githubUrl: "https://github.com/AhteshamAlvi/Mini_Unix_Shell",
+    ratings: { complexity: 4, impact: 3, innovation: 3 },
   },
   {
     title: "Java Tank Game",
@@ -54,6 +59,7 @@ export const projects: Project[] = [
       "Two-player competitive tank game built in pure Java. Players control tanks with keyboard inputs to move, rotate, and shoot across a procedurally generated obstacle field. First to 5 hits wins.",
     technologies: ["Java", "Game Development", "OOP"],
     githubUrl: "https://github.com/AhteshamAlvi/Java_TankGame",
+    ratings: { complexity: 3, impact: 2, innovation: 3 },
   },
   {
     title: "LeetCode Solutions",
@@ -61,6 +67,7 @@ export const projects: Project[] = [
       "Collection of LeetCode problem solutions auto-synced from my LeetCode account via glsync. Covers array manipulation, number theory, SQL queries, and algorithmic challenges across multiple difficulty levels.",
     technologies: ["Python", "Java", "SQL", "Algorithms"],
     githubUrl: "https://github.com/AhteshamAlvi/Leetcode_Solutions",
+    ratings: { complexity: 2, impact: 2, innovation: 1 },
   },
   {
     title: "Algorithm Implementations",
@@ -68,6 +75,7 @@ export const projects: Project[] = [
       "Practice implementations of algorithms across multiple languages — dynamic programming, sorting, searching, and more. Built as a learning resource for algorithm design and cross-language proficiency.",
     technologies: ["Rust", "Python", "OCaml", "Dynamic Programming"],
     githubUrl: "https://github.com/AhteshamAlvi/Algorithm-Implementation",
+    ratings: { complexity: 2, impact: 2, innovation: 2 },
   },
   {
     title: "Basic Chatbot",
@@ -75,5 +83,6 @@ export const projects: Project[] = [
       "Beginner chatbot in Python using a pattern-matching and template-based approach. Features separate prompt and response directories for modular conversation design.",
     technologies: ["Python", "NLP", "Chatbot Design"],
     githubUrl: "https://github.com/AhteshamAlvi/BasicChatbot",
+    ratings: { complexity: 1, impact: 1, innovation: 2 },
   },
 ];
