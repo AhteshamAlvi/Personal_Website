@@ -47,7 +47,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
       <div className="mt-auto" />
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-4 space-y-1.5">
         {ratingLabels.map(({ key, label }) => (
           <RatingBar key={key} label={label} value={ratings[key]} />
         ))}
