@@ -27,6 +27,7 @@ export const research: Research[] = [
       "AlphaFold2",
       "Computational Biology",
     ],
+    githubUrl: "https://github.com/ragify12/ibd_research_project",
   },
   {
     title: "Exoplanet Habitability Classification",
