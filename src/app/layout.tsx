@@ -25,7 +25,7 @@ const inter = Inter({
   and preview image shown in link previews.
 */
 export const metadata: Metadata = {
-  title: "Ahtesham Alvi | Computer Science & Finance",
+  title: "Ahtesham Alvi",
   description:
     "Personal website of Ahtesham Alvi — Computer Science (Honors) and Finance student at the University of Maryland, College Park.",
   keywords: [
