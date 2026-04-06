@@ -1,11 +1,12 @@
 import { ExternalLink } from "lucide-react";
-import type { Project, LanguageIcon } from "@/types";
+import type { Project } from "@/types";
 import { GithubIcon } from "@/components/ui/Icons";
+import LanguageIcon from "@/components/ui/LanguageIcon";
 
 /*
   ProjectCard — renders a single project in a card format.
-  Uses CSS subgrid (6 rows) to align content across cards in a grid.
-  Includes language icons via Iconify API, rating bars, and skill badges.
+  Uses CSS subgrid (5 rows) to align content across cards in a grid.
+  Includes theme-aware language icons, rating bars, and skill badges.
 */
 
 interface ProjectCardProps {
@@ -36,30 +37,6 @@ function RatingBar({ label, value }: { label: string; value: number }) {
   );
 }
 
-function LanguageIconDisplay({ lang }: { lang: LanguageIcon }) {
-  const src = lang.iconify
-    ? `https://api.iconify.design/${lang.iconify.replace(":", "/")}.svg`
-    : lang.localIcon!;
-
-  return (
-    <div className="group relative flex items-center">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={lang.name}
-        width={20}
-        height={20}
-        className="h-5 w-5"
-        loading="lazy"
-      />
-      {/* Tooltip */}
-      <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-foreground px-2 py-1 text-xs text-background opacity-0 transition-opacity group-hover:opacity-100">
-        {lang.name}
-      </span>
-    </div>
-  );
-}
-
 export default function ProjectCard({ project }: ProjectCardProps) {
   const { title, description, skills, languages, githubUrl, liveUrl, ratings } = project;
 
@@ -73,7 +50,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <h3 className="text-lg font-semibold">{title}</h3>
         <div className="flex shrink-0 items-center gap-2 pt-1">
           {languages.map((lang) => (
-            <LanguageIconDisplay key={lang.name} lang={lang} />
+            <LanguageIcon key={lang.name} lang={lang} />
           ))}
         </div>
       </div>
