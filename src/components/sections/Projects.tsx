@@ -20,7 +20,7 @@ export default function Projects() {
     <section id="projects" className="py-16 md:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionHeading title="Projects" />
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" style={{ gridTemplateRows: "auto" }}>
           {projects.map((project) => (
             <ProjectCard key={project.title} project={project} />
           ))}

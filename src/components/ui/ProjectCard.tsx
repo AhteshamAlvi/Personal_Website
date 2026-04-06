@@ -41,19 +41,25 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const { title, description, technologies, githubUrl, liveUrl, ratings } = project;
 
   return (
-    <div className="flex flex-col rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:border-primary/50 hover:shadow-lg">
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted">{description}</p>
+    <div
+      className="grid row-span-5 gap-0 rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:border-primary/50 hover:shadow-lg"
+      style={{ gridTemplateRows: "subgrid" }}
+    >
+      {/* Row 1: Title */}
+      <h3 className="text-lg font-semibold self-start">{title}</h3>
 
-      <div className="mt-auto" />
+      {/* Row 2: Description */}
+      <p className="mt-2 text-sm leading-relaxed text-muted self-start">{description}</p>
 
-      <div className="mt-4 space-y-1.5">
+      {/* Row 3: Ratings */}
+      <div className="mt-4 space-y-1.5 self-end">
         {ratingLabels.map(({ key, label }) => (
           <RatingBar key={key} label={label} value={ratings[key]} />
         ))}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      {/* Row 4: Technologies */}
+      <div className="mt-4 flex flex-wrap gap-2 content-start self-start">
         {technologies.map((tech) => (
           <span
             key={tech}
@@ -64,7 +70,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         ))}
       </div>
 
-      <div className="mt-4 flex items-center gap-3">
+      {/* Row 5: Links */}
+      <div className="mt-4 flex items-center gap-3 self-end">
         <a
           href={githubUrl}
           target="_blank"
