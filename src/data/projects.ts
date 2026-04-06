@@ -7,7 +7,7 @@ import type { Project } from "@/types";
 
   Each project maps directly to a GitHub repo.
   Skills focus on technical concepts, not programming languages.
-  Language icons use the skill-icons light set from Iconify (same in both themes).
+  Language/tool icons use the skill-icons light set from Iconify.
 */
 
 export const projects: Project[] = [
@@ -18,6 +18,8 @@ export const projects: Project[] = [
     skills: ["ROS2", "Computer Vision", "Inverse Kinematics", "Motion Planning"],
     languages: [
       { name: "Python", iconify: "skill-icons:python-light" },
+      { name: "ROS", iconify: "skill-icons:ros-light" },
+      { name: "OpenCV", iconify: "skill-icons:opencv-light" },
     ],
     githubUrl:
       "https://github.com/AhteshamAlvi/Robotics-Arm-Manipulator-Control",
@@ -55,6 +57,7 @@ export const projects: Project[] = [
     skills: ["Machine Learning", "Statistical Analysis", "Data Visualization"],
     languages: [
       { name: "Python", iconify: "skill-icons:python-light" },
+      { name: "Scikit-learn", iconify: "skill-icons:scikitlearn-light" },
     ],
     githubUrl:
       "https://github.com/AhteshamAlvi/Education_Inequality_MLproject",
@@ -67,6 +70,7 @@ export const projects: Project[] = [
     skills: ["Systems Programming", "Parsing", "Unix", "AST Construction"],
     languages: [
       { name: "C", iconify: "skill-icons:c" },
+      { name: "Linux", iconify: "skill-icons:linux-light" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/Mini_Unix_Shell",
     ratings: { complexity: 4, impact: 3, innovation: 3 },

@@ -45,15 +45,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       className="grid row-span-5 gap-0 rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:border-primary/50 hover:shadow-lg"
       style={{ gridTemplateRows: "subgrid" }}
     >
-      {/* Row 1: Title + Language Icons */}
-      <div className="flex items-start justify-between gap-2 self-start">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <div className="flex shrink-0 items-center gap-2 pt-1">
-          {languages.map((lang) => (
-            <LanguageIcon key={lang.name} lang={lang} />
-          ))}
-        </div>
-      </div>
+      {/* Row 1: Title */}
+      <h3 className="text-lg font-semibold self-start">{title}</h3>
 
       {/* Row 2: Description */}
       <p className="mt-2 text-sm leading-relaxed text-muted self-start">{description}</p>
@@ -77,30 +70,37 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         ))}
       </div>
 
-      {/* Row 5: Links */}
-      <div className="mt-4 flex items-center gap-3 self-end">
-        <a
-          href={githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-foreground"
-          aria-label={`View ${title} on GitHub`}
-        >
-          <GithubIcon className="h-4 w-4" />
-          Source
-        </a>
-        {liveUrl && (
+      {/* Row 5: Links + Language/Tool Icons */}
+      <div className="mt-4 flex items-center justify-between self-end">
+        <div className="flex items-center gap-3">
           <a
-            href={liveUrl}
+            href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-foreground"
-            aria-label={`View ${title} live demo`}
+            aria-label={`View ${title} on GitHub`}
           >
-            <ExternalLink className="h-4 w-4" />
-            Live Demo
+            <GithubIcon className="h-4 w-4" />
+            Source
           </a>
-        )}
+          {liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-foreground"
+              aria-label={`View ${title} live demo`}
+            >
+              <ExternalLink className="h-4 w-4" />
+              Live Demo
+            </a>
+          )}
+        </div>
+        <div className="flex items-center gap-1.5">
+          {languages.map((lang) => (
+            <LanguageIcon key={lang.name} lang={lang} />
+          ))}
+        </div>
       </div>
     </div>
   );
