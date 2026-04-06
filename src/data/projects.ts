@@ -7,12 +7,7 @@ import type { Project } from "@/types";
 
   Each project maps directly to a GitHub repo.
   Skills focus on technical concepts, not programming languages.
-
-  Language icons use the skill-icons set from Iconify.
-  - Icons with dark/light variants use iconifyLight (shown in light mode)
-    and iconifyDark (shown in dark mode).
-  - Icons without variants use a single iconify field.
-  - Local SVGs use localIcon for custom icons (e.g., Qiskit).
+  Language icons use the skill-icons light set from Iconify (same in both themes).
 */
 
 export const projects: Project[] = [
@@ -22,7 +17,7 @@ export const projects: Project[] = [
       "End-to-end ROS2 robotic manipulation pipeline integrating ArUco vision, perspective calibration, inverse kinematics, and autonomous pick-and-place. Includes homography-based coordinate transformation and vacuum gripper control.",
     skills: ["ROS2", "Computer Vision", "Inverse Kinematics", "Motion Planning"],
     languages: [
-      { name: "Python", iconifyLight: "skill-icons:python-dark", iconifyDark: "skill-icons:python-light" },
+      { name: "Python", iconify: "skill-icons:python-light" },
     ],
     githubUrl:
       "https://github.com/AhteshamAlvi/Robotics-Arm-Manipulator-Control",
@@ -47,7 +42,7 @@ export const projects: Project[] = [
       "Quantum circuit implementations in Qiskit including Grover's search, Shor's factoring algorithm, and parameterized circuits for Quantum ML classification experiments on IBM Quantum hardware.",
     skills: ["Quantum Circuits", "Quantum ML", "Quantum Computing", "IBM Quantum"],
     languages: [
-      { name: "Python", iconifyLight: "skill-icons:python-dark", iconifyDark: "skill-icons:python-light" },
+      { name: "Python", iconify: "skill-icons:python-light" },
       { name: "Qiskit", localIcon: "/images/icons/qiskit.svg" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/Quantum_Projects",
@@ -59,7 +54,7 @@ export const projects: Project[] = [
       "Analyzed a 400-student socioeconomic dataset using statistical tests (chi-square, ANOVA, Spearman) and trained Linear Regression and Random Forest models to predict college GPA. Includes interactive visualizations.",
     skills: ["Machine Learning", "Statistical Analysis", "Data Visualization"],
     languages: [
-      { name: "Python", iconifyLight: "skill-icons:python-dark", iconifyDark: "skill-icons:python-light" },
+      { name: "Python", iconify: "skill-icons:python-light" },
     ],
     githubUrl:
       "https://github.com/AhteshamAlvi/Education_Inequality_MLproject",
@@ -82,7 +77,7 @@ export const projects: Project[] = [
       "Two-player competitive tank game built in pure Java. Players control tanks with keyboard inputs to move, rotate, and shoot across a procedurally generated obstacle field. First to 5 hits wins.",
     skills: ["Game Development", "OOP", "Collision Detection"],
     languages: [
-      { name: "Java", iconifyLight: "skill-icons:java-dark", iconifyDark: "skill-icons:java-light" },
+      { name: "Java", iconify: "skill-icons:java-light" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/Java_TankGame",
     ratings: { complexity: 3, impact: 2, innovation: 3 },
@@ -93,9 +88,9 @@ export const projects: Project[] = [
       "Collection of LeetCode problem solutions auto-synced from my LeetCode account via glsync. Covers array manipulation, number theory, SQL queries, and algorithmic challenges across multiple difficulty levels.",
     skills: ["Algorithms", "Data Structures", "Problem Solving"],
     languages: [
-      { name: "Python", iconifyLight: "skill-icons:python-dark", iconifyDark: "skill-icons:python-light" },
-      { name: "Java", iconifyLight: "skill-icons:java-dark", iconifyDark: "skill-icons:java-light" },
-      { name: "MySQL", iconifyLight: "skill-icons:mysql-dark", iconifyDark: "skill-icons:mysql-light" },
+      { name: "Python", iconify: "skill-icons:python-light" },
+      { name: "Java", iconify: "skill-icons:java-light" },
+      { name: "MySQL", iconify: "skill-icons:mysql-light" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/Leetcode_Solutions",
     ratings: { complexity: 2, impact: 2, innovation: 1 },
@@ -107,7 +102,7 @@ export const projects: Project[] = [
     skills: ["Dynamic Programming", "Algorithm Design", "Cross-Language Proficiency"],
     languages: [
       { name: "Rust", iconify: "skill-icons:rust" },
-      { name: "Python", iconifyLight: "skill-icons:python-dark", iconifyDark: "skill-icons:python-light" },
+      { name: "Python", iconify: "skill-icons:python-light" },
       { name: "OCaml", iconify: "skill-icons:ocaml" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/Algorithm-Implementation",
@@ -119,7 +114,7 @@ export const projects: Project[] = [
       "Beginner chatbot in Python using a pattern-matching and template-based approach. Features separate prompt and response directories for modular conversation design.",
     skills: ["NLP", "Pattern Matching", "Modular Design"],
     languages: [
-      { name: "Python", iconifyLight: "skill-icons:python-dark", iconifyDark: "skill-icons:python-light" },
+      { name: "Python", iconify: "skill-icons:python-light" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/BasicChatbot",
     ratings: { complexity: 1, impact: 1, innovation: 2 },

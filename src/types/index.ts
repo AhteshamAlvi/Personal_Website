@@ -12,9 +12,7 @@ export interface ProjectRatings {
 
 export interface LanguageIcon {
   name: string;              // Display name (e.g., "Python")
-  iconifyLight?: string;     // Icon shown in light mode (dark-colored icon, e.g., "skill-icons:python-dark")
-  iconifyDark?: string;      // Icon shown in dark mode (light-colored icon, e.g., "skill-icons:python-light")
-  iconify?: string;          // Single icon for both modes (when no light/dark variants exist)
+  iconify?: string;          // Iconify icon ID (e.g., "skill-icons:python-light")
   localIcon?: string;        // Path to local icon in public/ (e.g., "/images/icons/qiskit.svg")
 }
 
