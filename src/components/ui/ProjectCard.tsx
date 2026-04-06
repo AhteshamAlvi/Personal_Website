@@ -1,12 +1,11 @@
 import { ExternalLink } from "lucide-react";
-import type { Project } from "@/types";
+import type { Project, LanguageIcon } from "@/types";
 import { GithubIcon } from "@/components/ui/Icons";
 
 /*
   ProjectCard — renders a single project in a card format.
-  Uses "flex flex-col" + "mt-auto" to push tech tags and links
-  to the bottom, keeping cards aligned in a grid.
-  Includes rating bars for complexity, impact, and innovation.
+  Uses CSS subgrid (6 rows) to align content across cards in a grid.
+  Includes language icons via Iconify API, rating bars, and skill badges.
 */
 
 interface ProjectCardProps {
@@ -37,16 +36,47 @@ function RatingBar({ label, value }: { label: string; value: number }) {
   );
 }
 
+function LanguageIconDisplay({ lang }: { lang: LanguageIcon }) {
+  const src = lang.iconify
+    ? `https://api.iconify.design/${lang.iconify.replace(":", "/")}.svg`
+    : lang.localIcon!;
+
+  return (
+    <div className="group relative flex items-center">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={lang.name}
+        width={20}
+        height={20}
+        className="h-5 w-5"
+        loading="lazy"
+      />
+      {/* Tooltip */}
+      <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-foreground px-2 py-1 text-xs text-background opacity-0 transition-opacity group-hover:opacity-100">
+        {lang.name}
+      </span>
+    </div>
+  );
+}
+
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const { title, description, technologies, githubUrl, liveUrl, ratings } = project;
+  const { title, description, skills, languages, githubUrl, liveUrl, ratings } = project;
 
   return (
     <div
       className="grid row-span-5 gap-0 rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:border-primary/50 hover:shadow-lg"
       style={{ gridTemplateRows: "subgrid" }}
     >
-      {/* Row 1: Title */}
-      <h3 className="text-lg font-semibold self-start">{title}</h3>
+      {/* Row 1: Title + Language Icons */}
+      <div className="flex items-start justify-between gap-2 self-start">
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <div className="flex shrink-0 items-center gap-2 pt-1">
+          {languages.map((lang) => (
+            <LanguageIconDisplay key={lang.name} lang={lang} />
+          ))}
+        </div>
+      </div>
 
       {/* Row 2: Description */}
       <p className="mt-2 text-sm leading-relaxed text-muted self-start">{description}</p>
@@ -58,14 +88,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         ))}
       </div>
 
-      {/* Row 4: Technologies */}
+      {/* Row 4: Skills */}
       <div className="mt-4 flex flex-wrap gap-2 content-start self-start">
-        {technologies.map((tech) => (
+        {skills.map((skill) => (
           <span
-            key={tech}
+            key={skill}
             className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
           >
-            {tech}
+            {skill}
           </span>
         ))}
       </div>

@@ -10,10 +10,17 @@ export interface ProjectRatings {
   innovation: number;  // 1–5: creativity and uniqueness of approach
 }
 
+export interface LanguageIcon {
+  name: string;          // Display name (e.g., "Python")
+  iconify?: string;      // Iconify icon ID (e.g., "devicon:python") — omit if using a local file
+  localIcon?: string;    // Path to local icon in public/ (e.g., "/images/icons/qiskit.svg")
+}
+
 export interface Project {
   title: string;
   description: string;
-  technologies: string[];
+  skills: string[];
+  languages: LanguageIcon[];
   githubUrl: string;
   liveUrl?: string; // "?" means optional — not every project has a live demo
   featured?: boolean;
