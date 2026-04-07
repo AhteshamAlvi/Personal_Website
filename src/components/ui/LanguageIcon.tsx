@@ -12,7 +12,7 @@ export default function LanguageIcon({ lang }: { lang: LanguageIconType }) {
 
   return (
     <div className="group relative flex items-center">
-      <div className="rounded-md border border-border p-1 transition-all duration-200 hover:border-primary/50 hover:shadow-sm">
+      <div className="rounded-md border border-border bg-white p-1 transition-all duration-200 hover:border-primary/50 hover:shadow-sm">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={src}
