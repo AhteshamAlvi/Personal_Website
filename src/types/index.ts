@@ -35,6 +35,7 @@ export interface Experience {
   endDate: string; // Use "Present" for current positions
   bullets: string[];
   technologies?: string[];
+  icons?: LanguageIcon[];
 }
 
 export interface Education {
@@ -60,6 +61,7 @@ export interface Research {
   description: string;
   bullets: string[];
   technologies?: string[];
+  icons?: LanguageIcon[];
   githubUrl?: string;
 }
 

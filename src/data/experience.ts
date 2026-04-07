@@ -2,13 +2,8 @@ import type { Experience } from "@/types";
 
 /*
   Work experience — ordered most recent first.
-  The component renders them in this order, so put your most
-  impressive/relevant positions at the top.
-
-  Tips for bullet points:
-    - Lead with a strong verb (Developed, Led, Managed, Designed)
-    - Include measurable impact where possible (20% increase, 4000 documents)
-    - Keep each bullet to 1-2 lines
+  Technologies focus on conceptual/technical skills, not programming languages.
+  Icons show languages/tools via Iconify skill-icons.
 */
 
 export const experiences: Experience[] = [
@@ -24,7 +19,11 @@ export const experiences: Experience[] = [
       "Applied Scrum methodology and utilized Git/GitHub for development and testing, leading to a 95% decrease in post-release issues.",
       "Developed and optimized software features for a mobile application, assisting in debugging to improve performance and reliability.",
     ],
-    technologies: ["Python", "NLP", "Git", "Scrum", "Mobile Development"],
+    technologies: ["NLP", "Agile/Scrum", "Version Control", "Mobile Development", "Chatbot Design"],
+    icons: [
+      { name: "Python", iconify: "skill-icons:python-light" },
+      { name: "Git", iconify: "skill-icons:git" },
+    ],
   },
   {
     title: "Budget Reviewer",
@@ -38,7 +37,7 @@ export const experiences: Experience[] = [
       "Analyze departmental budgets to ensure financial compliance and collaborate with teams to refine proposals and forecasts.",
       "Review and vote on crucial financial legislation for university student body government and funds management.",
     ],
-    technologies: ["Financial Analysis", "Budget Management", "Excel"],
+    technologies: ["Financial Analysis", "Budget Management", "Compliance"],
   },
   {
     title: "Office Assistant",
@@ -51,7 +50,7 @@ export const experiences: Experience[] = [
       "Audited and entered financial data, including W4 forms, into Workday and Excel, ensuring compliance with IRS regulations.",
       "Handled correspondence and communications with clients and vendors, and assisted with report and presentation preparation.",
     ],
-    technologies: ["Workday", "Excel", "Document Management"],
+    technologies: ["Document Management", "Data Entry", "Financial Compliance"],
   },
   {
     title: "Code Sensei",
@@ -64,7 +63,10 @@ export const experiences: Experience[] = [
       "Mentored students in developing their own projects including coding games, robotic blocks, and beginner coding activities.",
       "Reviewed and provided feedback on code to ensure quality, and developed learning materials for programming languages.",
     ],
-    technologies: ["JavaScript", "Teaching", "Curriculum Development"],
+    technologies: ["Teaching", "Curriculum Development", "Code Review"],
+    icons: [
+      { name: "JavaScript", iconify: "skill-icons:javascript" },
+    ],
   },
   {
     title: "Marketing Manager & General Assistant",
@@ -77,6 +79,9 @@ export const experiences: Experience[] = [
       "Designed website layouts and marketing materials using Adobe Photoshop, and managed SEO and marketing strategy.",
       "Conducted market research to identify trends and analyzed performance metrics to optimize marketing initiatives.",
     ],
-    technologies: ["Adobe Photoshop", "SEO", "Marketing", "Web Design"],
+    technologies: ["SEO", "Marketing Strategy", "Web Design", "Market Research"],
+    icons: [
+      { name: "Photoshop", iconify: "skill-icons:photoshop" },
+    ],
   },
 ];

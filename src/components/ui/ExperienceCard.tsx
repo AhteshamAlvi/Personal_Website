@@ -1,13 +1,11 @@
 import type { Experience } from "@/types";
+import LanguageIcon from "@/components/ui/LanguageIcon";
 
 /*
   ExperienceCard — renders a single work experience entry.
 
   This is a "presentational" component — it receives data via props
   and renders it. It doesn't fetch data or manage state.
-
-  The timeline dot and line are handled by the parent Experience section,
-  not by this card. This keeps the card reusable in other layouts.
 */
 
 interface ExperienceCardProps {
@@ -15,7 +13,7 @@ interface ExperienceCardProps {
 }
 
 export default function ExperienceCard({ experience }: ExperienceCardProps) {
-  const { title, company, location, startDate, endDate, bullets, technologies } =
+  const { title, company, location, startDate, endDate, bullets, technologies, icons } =
     experience;
 
   return (
@@ -43,19 +41,30 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
         ))}
       </ul>
 
-      {/* Technology tags — only shown if present */}
-      {technologies && technologies.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {technologies.map((tech) => (
-            <span
-              key={tech}
-              className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-      )}
+      {/* Technology tags + icons */}
+      <div className="mt-4 flex items-end justify-between gap-4">
+        {technologies && technologies.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {technologies.map((tech) => (
+              <span
+                key={tech}
+                className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <div />
+        )}
+        {icons && icons.length > 0 && (
+          <div className="flex shrink-0 items-center gap-1.5">
+            {icons.map((icon) => (
+              <LanguageIcon key={icon.name} lang={icon} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

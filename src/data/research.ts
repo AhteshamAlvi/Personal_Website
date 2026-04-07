@@ -3,7 +3,8 @@ import type { Research } from "@/types";
 /*
   Research experience — separate from projects because research
   implies mentorship, methodology, and institutional context.
-  If you publish papers later, add a "publicationUrl" field.
+  Technologies focus on conceptual/technical skills, not programming languages.
+  Icons show languages/tools via Iconify skill-icons.
 */
 
 export const research: Research[] = [
@@ -21,11 +22,14 @@ export const research: Research[] = [
       "Engineered multi-objective candidate ranking with diversity filtering to select optimal therapeutic binder candidates.",
     ],
     technologies: [
-      "Python",
       "RFdiffusion",
       "ProteinMPNN",
       "AlphaFold2",
       "Computational Biology",
+      "Protein Engineering",
+    ],
+    icons: [
+      { name: "Python", iconify: "skill-icons:python-light" },
     ],
     githubUrl: "https://github.com/ragify12/ibd_research_project",
   },
@@ -42,16 +46,20 @@ export const research: Research[] = [
       "Processing and cleaning multi-source astronomical datasets from NASA Exoplanet Archive and JPL for model training and validation.",
     ],
     technologies: [
-      "Python",
-      "PyTorch",
-      "Pandas",
+      "Neural Networks",
+      "Embedding Spaces",
       "NASA Exoplanet Archive",
-      "Machine Learning",
+      "Data Pipeline",
+      "Feature Engineering",
+    ],
+    icons: [
+      { name: "Python", iconify: "skill-icons:python-light" },
+      { name: "PyTorch", iconify: "skill-icons:pytorch-light" },
     ],
     githubUrl:
       "https://github.com/AhteshamAlvi/Exoplanet-Habitability-Classification-ML-Model",
-  }, 
-  {  
+  },
+  {
     title: "Temporal Robustness of Social Media Bot Detection Models",
     organization: "University of Maryland, College Park",
     role: "Undergraduate Researcher",
@@ -63,17 +71,21 @@ export const research: Research[] = [
       "Analyzed model generalization by applying trained classifiers to modern X data, quantifying performance degradation across temporal distribution shifts.",
       "Conducted feature importance and behavioral analysis to identify which detection signals remain stable versus those that lose predictive power over time.",
       "Evaluated models using accuracy, precision, recall, and F1-score, and investigated failure modes to distinguish overfitting from true evolution in bot strategies.",
-      "Explored adaptive modeling strategies and feature redesign approaches to improve robustness of bot detection systems in evolving social environments."
+      "Explored adaptive modeling strategies and feature redesign approaches to improve robustness of bot detection systems in evolving social environments.",
     ],
     technologies: [
-      "Python",
-      "Scikit-learn",
-      "PyTorch",
       "Network Analysis",
-      "Machine Learning",
-      "Data Analysis"
+      "Classification",
+      "Temporal Distribution Shift",
+      "Feature Engineering",
+      "Model Evaluation",
     ],
-  }, 
+    icons: [
+      { name: "Python", iconify: "skill-icons:python-light" },
+      { name: "PyTorch", iconify: "skill-icons:pytorch-light" },
+      { name: "Scikit-learn", iconify: "skill-icons:scikitlearn-light" },
+    ],
+  },
   {
     title: "Bioinspired Robotics — Flapping Winged Glider (RoboRaptor)",
     organization:
@@ -89,11 +101,15 @@ export const research: Research[] = [
       "Conducted wind-dependent flight experiments validating stable tethered gliding, servo-driven flapping, and directional control across multiple prototype iterations.",
     ],
     technologies: [
-      "Arduino",
-      "C++",
       "CAD/3D Printing",
       "Sensor Integration",
       "Telemetry",
+      "Firmware Engineering",
+      "Aeroelastics",
+    ],
+    icons: [
+      { name: "Arduino", iconify: "skill-icons:arduino" },
+      { name: "C++", iconify: "skill-icons:cpp" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/Flapping_Winged_Glider",
   },

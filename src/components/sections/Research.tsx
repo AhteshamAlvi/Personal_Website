@@ -2,6 +2,7 @@ import { FlaskConical } from "lucide-react";
 import { research } from "@/data/research";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { GithubIcon } from "@/components/ui/Icons";
+import LanguageIcon from "@/components/ui/LanguageIcon";
 
 /*
   Research — showcases academic research experience.
@@ -32,6 +33,13 @@ export default function Research() {
                     {item.role} · {item.period}
                   </p>
                 </div>
+                {item.icons && item.icons.length > 0 && (
+                  <div className="flex shrink-0 items-center gap-1.5">
+                    {item.icons.map((icon) => (
+                      <LanguageIcon key={icon.name} lang={icon} />
+                    ))}
+                  </div>
+                )}
               </div>
 
               <p className="mt-4 leading-relaxed text-muted">
