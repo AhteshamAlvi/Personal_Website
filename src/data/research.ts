@@ -55,6 +55,7 @@ export const research: Research[] = [
     icons: [
       { name: "Python", iconify: "skill-icons:python-light" },
       { name: "PyTorch", iconify: "skill-icons:pytorch-light" },
+      { name: "Scikit-learn", iconify: "skill-icons:scikitlearn-light" },
     ],
     githubUrl:
       "https://github.com/AhteshamAlvi/Exoplanet-Habitability-Classification-ML-Model",
@@ -110,6 +111,8 @@ export const research: Research[] = [
     icons: [
       { name: "Arduino", iconify: "skill-icons:arduino" },
       { name: "C++", iconify: "skill-icons:cpp" },
+      { name: "AutoCAD", iconify: "skill-icons:autocad-light" },
+      { name: "Autodesk", iconify: "simple-icons:autodesk" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/Flapping_Winged_Glider",
   },

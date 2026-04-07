@@ -3,7 +3,7 @@ import type { Experience } from "@/types";
 /*
   Work experience — ordered most recent first.
   Technologies focus on conceptual/technical skills, not programming languages.
-  Icons show languages/tools via Iconify skill-icons.
+  Icons show languages/tools via Iconify (skill-icons, devicon, logos, vscode-icons, simple-icons).
 */
 
 export const experiences: Experience[] = [
@@ -22,6 +22,13 @@ export const experiences: Experience[] = [
     technologies: ["NLP", "Agile/Scrum", "Version Control", "Mobile Development", "Chatbot Design"],
     icons: [
       { name: "Python", iconify: "skill-icons:python-light" },
+      { name: "Flask", iconify: "skill-icons:flask-light" },
+      { name: "React", iconify: "skill-icons:react-light" },
+      { name: "HTML", iconify: "skill-icons:html" },
+      { name: "CSS", iconify: "skill-icons:css" },
+      { name: "Azure", iconify: "skill-icons:azure-light" },
+      { name: "OpenAPI", iconify: "devicon:openapi" },
+      { name: "OpenAI", iconify: "simple-icons:openai" },
       { name: "Git", iconify: "skill-icons:git" },
     ],
   },
@@ -38,6 +45,9 @@ export const experiences: Experience[] = [
       "Review and vote on crucial financial legislation for university student body government and funds management.",
     ],
     technologies: ["Financial Analysis", "Budget Management", "Compliance"],
+    icons: [
+      { name: "Excel", iconify: "vscode-icons:file-type-excel" },
+    ],
   },
   {
     title: "Office Assistant",
@@ -51,6 +61,10 @@ export const experiences: Experience[] = [
       "Handled correspondence and communications with clients and vendors, and assisted with report and presentation preparation.",
     ],
     technologies: ["Document Management", "Data Entry", "Financial Compliance"],
+    icons: [
+      { name: "Adobe Acrobat", iconify: "simple-icons:adobeacrobatreader" },
+      { name: "Excel", iconify: "vscode-icons:file-type-excel" },
+    ],
   },
   {
     title: "Code Sensei",
@@ -66,6 +80,7 @@ export const experiences: Experience[] = [
     technologies: ["Teaching", "Curriculum Development", "Code Review"],
     icons: [
       { name: "JavaScript", iconify: "skill-icons:javascript" },
+      { name: "Unity", iconify: "skill-icons:unity-light" },
     ],
   },
   {
@@ -81,6 +96,8 @@ export const experiences: Experience[] = [
     ],
     technologies: ["SEO", "Marketing Strategy", "Web Design", "Market Research"],
     icons: [
+      { name: "HTML", iconify: "skill-icons:html" },
+      { name: "CSS", iconify: "skill-icons:css" },
       { name: "Photoshop", iconify: "skill-icons:photoshop" },
     ],
   },
