@@ -86,6 +86,7 @@ export const research: Research[] = [
       { name: "PyTorch", iconify: "skill-icons:pytorch-light" },
       { name: "Scikit-learn", iconify: "skill-icons:scikitlearn-light" },
     ],
+    githubUrl: "https://github.com/AhteshamAlvi/Twibot_Detection_Research",
   },
   {
     title: "Bioinspired Robotics — Flapping Winged Glider (RoboRaptor)",
