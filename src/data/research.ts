@@ -150,15 +150,6 @@ export const research: Research[] = [
       { name: "AutoCAD", iconify: "skill-icons:autocad-light" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/Flapping_Winged_Glider",
-    papers: [
-      {
-        title: "RoboRaptor: Final Project Report",
-        venue: "Course research report, FIRE199",
-        status: "2024",
-        authorship: "A. Alvi, P. Sethy, S. Jayanthi — first author",
-        url: "/papers/roboraptor-final-report.pdf",
-      },
-    ],
     presentations: [
       {
         title: "RoboRaptor: Articulated Wing Glider",
