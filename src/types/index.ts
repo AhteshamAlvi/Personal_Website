@@ -67,6 +67,7 @@ export interface Presentation {
   venue: string;      // e.g., "The FIRE Summit, Stamp Student Union, UMD"
   date: string;
   authorship: string; // e.g., "First author"
+  url?: string;       // Path to the poster PDF in public/, when shareable
 }
 
 export interface Research {

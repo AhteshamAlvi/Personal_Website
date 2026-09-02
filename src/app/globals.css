@@ -1,29 +1,88 @@
 @import "tailwindcss";
 
 /*
-  Color scheme using CSS custom properties.
-  Light mode is the default. Dark mode activates when the <html> tag
-  has class="dark" (controlled by next-themes).
+  ── Palette ───────────────────────────────────────────────────────────────
+  Derived from the RoboRaptor / FIRE Summit poster (public/papers — the
+  SURC poster), not from a stock framework ramp.
+
+  The poster's six section colors all sit at exactly L=0.28, S=0.83 in HLS
+  and differ only in hue (172, 204, 246, 282, 318, 342 degrees). That
+  constant-lightness construction is what makes them read as one family
+  instead of a rainbow, so the ramp is reproduced here as-is. Dark mode
+  lifts the same six hues to L=0.66, S=0.55 so they stay legible on a dark
+  ground without shifting identity.
+
+  Surfaces are warm (the poster's ground is a greige, not white). The page
+  is tinted and cards are pure white, so a card reads as raised without
+  needing a heavy shadow — the previous scheme had #ffffff cards on an
+  #ffffff page, separated only by a hairline, which is why everything
+  looked flat.
 */
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --card: #f9fafb;
-  --primary: #2563eb;
+  /* Surfaces — page is tinted, cards are white */
+  --background: #f2efec;
+  --card: #ffffff;
+  --border: #e2ddd7;
+  --foreground: #1c1a24;
+  --muted: #6b645d;
+
+  /* Accent ramp — poster values, L=0.28 S=0.83 */
+  --accent-teal: #0c8373;
+  --accent-blue: #0c5383;
+  --accent-indigo: #180c83;
+  --accent-purple: #5f0c83;
+  --accent-magenta: #830c5f;
+  --accent-crimson: #830c30;
+
+  /* Default accent — the poster's title color */
+  --primary: var(--accent-crimson);
   --primary-foreground: #ffffff;
+
+  --shadow-card: 0 1px 2px rgb(28 26 36 / 0.04), 0 4px 12px rgb(28 26 36 / 0.05);
+  --shadow-card-hover: 0 2px 4px rgb(28 26 36 / 0.06), 0 12px 28px rgb(28 26 36 / 0.10);
 }
 
 .dark {
-  --background: #030712;
-  --foreground: #f9fafb;
-  --muted: #9ca3af;
-  --border: #1f2937;
-  --card: #111827;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
+  --background: #14131a;
+  --card: #1c1a24;
+  --border: #2e2b38;
+  --foreground: #f2efec;
+  --muted: #9c948c;
+
+  /* Same six hues, lifted for a dark ground — L=0.66 S=0.55 */
+  --accent-teal: #79d8cb;
+  --accent-blue: #79b2d8;
+  --accent-indigo: #8279d8;
+  --accent-purple: #bb79d8;
+  --accent-magenta: #d879bb;
+  --accent-crimson: #d87995;
+
+  --primary: var(--accent-crimson);
+  --primary-foreground: #14131a;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 12px rgb(0 0 0 / 0.25);
+  --shadow-card-hover: 0 2px 4px rgb(0 0 0 / 0.35), 0 12px 28px rgb(0 0 0 / 0.4);
 }
+
+/*
+  ── Section accents ───────────────────────────────────────────────────────
+  Each section rebinds --primary, so every component inside it picks up that
+  section's hue with no component changes at all. This works because the
+  @theme block below is `inline`: Tailwind emits `var(--primary)` into the
+  utility rather than baking in the resolved color, and custom properties
+  are substituted against the element that uses them — so a section-scoped
+  override cascades to everything within.
+
+  Order follows the poster's own sequence rather than the spectrum, so
+  adjacent sections never land on neighbouring hues.
+*/
+#about    { --primary: var(--accent-teal); }
+#education{ --primary: var(--accent-blue); }
+#experience { --primary: var(--accent-indigo); }
+#projects { --primary: var(--accent-purple); }
+#research { --primary: var(--accent-magenta); }
+#skills   { --primary: var(--accent-crimson); }
+#contact  { --primary: var(--accent-teal); }
 
 /*
   Register our custom colors with Tailwind so we can use them as
@@ -44,6 +103,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/*
+  Cards get a resting shadow, not just a hover one. Applied here rather than
+  in each component so the whole surface system stays in one file.
+*/
+.bg-card {
+  box-shadow: var(--shadow-card);
 }
 
 /*

@@ -1,4 +1,4 @@
-import { FlaskConical, FileText, Presentation, Mic } from "lucide-react";
+import { FlaskConical, FileText, Presentation, Mic, Image as ImageIcon } from "lucide-react";
 import { research } from "@/data/research";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { GithubIcon } from "@/components/ui/Icons";
@@ -126,6 +126,17 @@ export default function Research() {
                       <p className="mt-0.5 text-xs text-muted">
                         {pres.date} · {pres.authorship}
                       </p>
+                      {pres.url && (
+                        <a
+                          href={pres.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-2 inline-flex items-center gap-1.5 text-xs text-muted transition-colors hover:text-foreground"
+                        >
+                          <ImageIcon className="h-3.5 w-3.5" />
+                          View poster
+                        </a>
+                      )}
                     </div>
                   ))}
                 </div>

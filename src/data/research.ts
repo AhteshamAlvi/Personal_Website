@@ -125,6 +125,52 @@ export const research: Research[] = [
       "https://github.com/AhteshamAlvi/Exoplanet-Habitability-Classification-ML-Model",
   },
   {
+    title: "RoboRaptor — Articulated-Wing Gliding Robot",
+    organization:
+      "FIRE Research Internship (FIRE199), University of Maryland — advised by Dr. Lena Johnson",
+    role: "Undergraduate Research Intern",
+    period: "May 2024 — July 2024",
+    description:
+      "Led a three-person team building a bird-inspired tethered gliding robot with articulating flapping wings, instrumented to characterize wind and atmospheric effects on flapping and gliding flight.",
+    bullets: [
+      "Advanced the design across four prototypes benchmarked against house sparrow, peregrine falcon, and golden eagle wing geometry, raising the model's aspect ratio from 2.92 to 6.24.",
+      "Replaced wooden dowel spars with carbon fiber and aluminum after in-flight structural failures.",
+      "Wrote Arduino firmware for servo wing-torque control and SD-card flight telemetry, integrating an onboard wind sensor on a 3D-printed electronics plate.",
+      "Achieved sustained flight in winds above 7 mph with in-flight wing actuation and directional control.",
+    ],
+    technologies: [
+      "Firmware Engineering",
+      "CAD / 3D Printing",
+      "Telemetry",
+      "Aeroelastics",
+    ],
+    icons: [
+      { name: "Arduino", iconify: "skill-icons:arduino" },
+      { name: "C++", iconify: "skill-icons:cpp" },
+      { name: "AutoCAD", iconify: "skill-icons:autocad-light" },
+    ],
+    githubUrl: "https://github.com/AhteshamAlvi/Flapping_Winged_Glider",
+    papers: [
+      {
+        title: "RoboRaptor: Final Project Report",
+        venue: "Course research report, FIRE199",
+        status: "2024",
+        authorship: "A. Alvi, P. Sethy, S. Jayanthi — first author",
+        url: "/papers/roboraptor-final-report.pdf",
+      },
+    ],
+    presentations: [
+      {
+        title: "RoboRaptor: Articulated Wing Glider",
+        venue:
+          "Summer Undergraduate Research Conference (SURC) — Grand Ballroom, Stamp Student Union, University of Maryland",
+        date: "July 19, 2024",
+        authorship: "A. Alvi, P. Sethy, S. Jayanthi, L. Johnson — first author",
+        url: "/papers/roboraptor-poster.pdf",
+      },
+    ],
+  },
+  {
     title: "SeaTerp — Bioinspired Turtle Robot for Chesapeake Bay Monitoring",
     organization:
       "FIRE Bio-Inspired Robotics (FIRE298), University of Maryland — advised by Dr. Lena Johnson",
@@ -157,6 +203,7 @@ export const research: Research[] = [
         status: "2024",
         authorship:
           "A. Srivatsa, T. Zhang, A. Alvi, G. Khawaja, L. Johnson",
+        url: "/papers/seaterp-conference-paper.pdf",
       },
     ],
     presentations: [
@@ -166,42 +213,7 @@ export const research: Research[] = [
           "The FIRE Summit — Colony Ballroom & Charles Carroll Room, Stamp Student Union, University of Maryland",
         date: "December 2024",
         authorship: "A. Alvi, G. Khawaja, A. Srivatsa, T. Zhang — first author",
-      },
-    ],
-  },
-  {
-    title: "RoboRaptor — Articulated-Wing Gliding Robot",
-    organization:
-      "FIRE Research Internship (FIRE199), University of Maryland — advised by Dr. Lena Johnson",
-    role: "Undergraduate Research Intern",
-    period: "May 2024 — July 2024",
-    description:
-      "Led a three-person team building a bird-inspired tethered gliding robot with articulating flapping wings, instrumented to characterize wind and atmospheric effects on flapping and gliding flight.",
-    bullets: [
-      "Advanced the design across four prototypes benchmarked against house sparrow, peregrine falcon, and golden eagle wing geometry, raising the model's aspect ratio from 2.92 to 6.24.",
-      "Replaced wooden dowel spars with carbon fiber and aluminum after in-flight structural failures.",
-      "Wrote Arduino firmware for servo wing-torque control and SD-card flight telemetry, integrating an onboard wind sensor on a 3D-printed electronics plate.",
-      "Achieved sustained flight in winds above 7 mph with in-flight wing actuation and directional control.",
-    ],
-    technologies: [
-      "Firmware Engineering",
-      "CAD / 3D Printing",
-      "Telemetry",
-      "Aeroelastics",
-    ],
-    icons: [
-      { name: "Arduino", iconify: "skill-icons:arduino" },
-      { name: "C++", iconify: "skill-icons:cpp" },
-      { name: "AutoCAD", iconify: "skill-icons:autocad-light" },
-    ],
-    githubUrl: "https://github.com/AhteshamAlvi/Flapping_Winged_Glider",
-    presentations: [
-      {
-        title: "RoboRaptor: Articulated Wing Glider",
-        venue:
-          "Summer Undergraduate Research Conference (SURC) — Grand Ballroom, Stamp Student Union, University of Maryland",
-        date: "July 19, 2024",
-        authorship: "A. Alvi, P. Sethy, S. Jayanthi, L. Johnson — first author",
+        url: "/papers/seaterp-poster.pdf",
       },
     ],
   },
