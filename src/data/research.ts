@@ -186,6 +186,7 @@ export const research: Research[] = [
       { name: "C++", iconify: "skill-icons:cpp" },
       { name: "Autodesk", iconify: "simple-icons:autodesk" },
     ],
+    githubUrl: "https://github.com/AhteshamAlvi/SeaTerp-Underwater-Turtlebot",
     papers: [
       {
         title:
