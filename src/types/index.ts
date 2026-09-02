@@ -53,6 +53,22 @@ export interface SkillCategory {
   skills: string[];
 }
 
+export interface Paper {
+  title: string;
+  venue?: string;        // e.g., "IEEE BIBM 2026" — omit for unsubmitted work
+  status: string;        // e.g., "Under review", "Preprint", "Course paper"
+  authorship: string;    // e.g., "Sole author", "First author of 5"
+  url?: string;          // Path to the PDF in public/ — omit if not publicly shareable
+  slidesUrl?: string;    // Optional companion slide deck
+}
+
+export interface Presentation {
+  title: string;
+  venue: string;      // e.g., "The FIRE Summit, Stamp Student Union, UMD"
+  date: string;
+  authorship: string; // e.g., "First author"
+}
+
 export interface Research {
   title: string;
   organization: string;
@@ -63,6 +79,8 @@ export interface Research {
   technologies?: string[];
   icons?: LanguageIcon[];
   githubUrl?: string;
+  papers?: Paper[];
+  presentations?: Presentation[];
 }
 
 export interface SocialLink {

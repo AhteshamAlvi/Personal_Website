@@ -1,10 +1,9 @@
-import { Clock } from "lucide-react";
-import { skillCategories, certifications } from "@/data/skills";
+import { skillCategories } from "@/data/skills";
 import SectionHeading from "@/components/ui/SectionHeading";
 import SkillBadge from "@/components/ui/SkillBadge";
 
 /*
-  Skills — displays skills grouped by category + certifications.
+  Skills — displays skills grouped by category.
 
   Layout: a responsive grid of category groups. Each group shows
   its name and a row of skill badges.
@@ -35,29 +34,6 @@ export default function Skills() {
             </div>
           ))}
         </div>
-
-        {/* Certifications */}
-        {certifications.length > 0 && (
-          <div className="mt-12">
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted">
-              Certifications
-            </h3>
-            <div className="space-y-3">
-              {certifications.map((cert) => (
-                <div
-                  key={cert.name}
-                  className="flex flex-col gap-1 rounded-lg border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between"
-                >
-                  <span className="font-medium">{cert.name}</span>
-                  <span className="inline-flex items-center gap-1.5 text-sm text-muted">
-                    <Clock className="h-3.5 w-3.5" />
-                    {cert.status} — Expected {cert.expectedCompletion}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </section>
   );

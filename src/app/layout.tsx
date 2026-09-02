@@ -36,12 +36,16 @@ export const metadata: Metadata = {
     "Software Engineer",
     "Machine Learning",
     "Robotics",
+    "Computational Biology",
+    "Protein Design",
+    "Quantum Computing",
+    "Salesforce",
   ],
   authors: [{ name: "Ahtesham Alvi" }],
   openGraph: {
     title: "Ahtesham Alvi | Computer Science & Finance",
     description:
-      "Computer Science (Honors) and Finance student at UMD. Machine learning, robotics, quantum computing, and systems programming.",
+      "Computer Science (Honors) and Finance student at UMD. De novo protein design, machine learning, robotics, quantum computing, and systems programming.",
     type: "website",
     locale: "en_US",
   },
@@ -77,6 +81,8 @@ const jsonLd = {
   ],
   knowsAbout: [
     "Machine Learning",
+    "Computational Biology",
+    "De Novo Protein Design",
     "Robotics",
     "Quantum Computing",
     "Systems Programming",

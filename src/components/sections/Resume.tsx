@@ -9,6 +9,9 @@ import { FileText, Download } from "lucide-react";
 
   The PDF file lives at public/resume.pdf — Next.js serves files
   in public/ at the root URL, so /resume.pdf just works.
+
+  Two documents: the one-page resume and the full four-page CV
+  (publications, conference presentations, complete coursework).
 */
 
 export default function Resume() {
@@ -19,8 +22,8 @@ export default function Resume() {
           <FileText className="mx-auto h-12 w-12 text-primary" />
           <h2 className="mt-4 text-2xl font-bold">Want the full picture?</h2>
           <p className="mt-2 text-muted">
-            Download my resume for a quick overview, or my full CV for
-            a detailed look at my experience, education, and skills.
+            Grab the one-page resume for a quick overview, or the full CV for
+            publications, conference presentations, and complete coursework.
           </p>
           <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a

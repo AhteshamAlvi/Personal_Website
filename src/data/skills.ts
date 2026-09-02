@@ -12,55 +12,59 @@ import type { SkillCategory } from "@/types";
 export const skillCategories: SkillCategory[] = [
   {
     name: "Languages",
-    skills: ["Python", "Java", "C/C++", "Rust", "OCaml", "JavaScript", "SQL"],
+    skills: [
+      "Python", "TypeScript", "JavaScript", "Java", "C/C++", "Rust",
+      "OCaml", "SQL", "SOQL", "Apex", "Bash", "GLSL", "LaTeX",
+    ],
   },
   {
-    name: "ML & Data Science",
+    name: "Computational Biology",
     skills: [
-      "PyTorch",
-      "Scikit-learn",
-      "Pandas",
-      "Data Analysis",
+      "RFdiffusion", "ProteinMPNN", "BindCraft", "AlphaFold2-Multimer",
+      "ColabFold", "Boltz-2", "Rosetta", "ipSAE", "PyMOL", "BioPython",
+      "SLURM/HPC",
+    ],
+  },
+  {
+    name: "ML & Data",
+    skills: [
+      "PyTorch", "Scikit-learn", "XGBoost", "imbalanced-learn", "Pandas",
+      "NumPy", "SciPy", "NetworkX", "node2vec", "DuckDB", "astroquery",
       "Tableau",
-      "R",
+    ],
+  },
+  {
+    name: "Robotics & Quantum",
+    skills: [
+      "ROS2 (Humble)", "Gazebo", "OpenCV", "Arduino", "Qiskit",
+      "IBM Quantum hardware",
     ],
   },
   {
     name: "Web & Frameworks",
-    skills: ["React", "Next.js", "HTML/CSS", "OpenAI API", "MCP"],
+    skills: [
+      "React", "Next.js", "Tailwind CSS", "Vite", "Node.js", "FastAPI",
+      "REST APIs", "WebSockets", "Vercel", "Render",
+    ],
   },
   {
-    name: "Robotics & Hardware",
-    skills: ["ROS2 (Humble)", "Gazebo", "Arduino", "Qiskit"],
+    name: "Systems & Tooling",
+    skills: [
+      "Linux", "Docker", "Jenkins (CI)", "PMD", "Git/GitHub", "Vitest",
+      "pytest", "Vulkan", "Azure",
+    ],
   },
   {
-    name: "Tools & Platforms",
-    skills: ["Git/GitHub", "Linux", "Azure", "Microsoft Office", "Excel"],
+    name: "Platforms & AI Tooling",
+    skills: [
+      "Salesforce", "Jira", "Confluence", "Workday", "Claude Agent SDK",
+      "Claude Skills", "MCP", "OpenAI API", "Excel",
+    ],
   },
   {
     name: "Professional",
     skills: [
-      "Scrum/Agile",
-      "Team Collaboration",
-      "Mentorship",
-      "Technical Writing",
+      "Scrum/Agile", "Team Collaboration", "Mentorship", "Technical Writing",
     ],
-  },
-];
-
-/*
-  Certifications — separate from skills because they have
-  additional context (completion status, issuing body).
-*/
-export const certifications = [
-  {
-    name: "Google Data Analytics Professional Certificate",
-    status: "In Progress",
-    expectedCompletion: "March 2026",
-  },
-  {
-    name: "Professional Scrum Master I & II (PSM I & II)",
-    status: "In Progress",
-    expectedCompletion: "March 2026",
   },
 ];

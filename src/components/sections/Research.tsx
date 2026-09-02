@@ -1,4 +1,4 @@
-import { FlaskConical } from "lucide-react";
+import { FlaskConical, FileText, Presentation, Mic } from "lucide-react";
 import { research } from "@/data/research";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { GithubIcon } from "@/components/ui/Icons";
@@ -57,6 +57,79 @@ export default function Research() {
                   </li>
                 ))}
               </ul>
+
+              {/*
+                Papers — rendered only when a research entry has them.
+                A paper without a `url` is still listed (title, venue, status)
+                but not linked, so work that isn't publicly shareable yet
+                can be credited without exposing the PDF.
+              */}
+              {item.papers && item.papers.length > 0 && (
+                <div className="mt-6 space-y-3 rounded-lg border border-border bg-background/50 p-4">
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
+                    {item.papers.length > 1 ? "Papers" : "Paper"}
+                  </h4>
+                  {item.papers.map((paper) => (
+                    <div key={paper.title} className="text-sm">
+                      <p className="font-medium leading-snug">{paper.title}</p>
+                      <p className="mt-1 text-xs text-muted">
+                        {[paper.venue, paper.status, paper.authorship]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                      {(paper.url || paper.slidesUrl) && (
+                        <div className="mt-2 flex flex-wrap items-center gap-4">
+                          {paper.url && (
+                            <a
+                              href={paper.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs text-muted transition-colors hover:text-foreground"
+                            >
+                              <FileText className="h-3.5 w-3.5" />
+                              Read paper
+                            </a>
+                          )}
+                          {paper.slidesUrl && (
+                            <a
+                              href={paper.slidesUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs text-muted transition-colors hover:text-foreground"
+                            >
+                              <Presentation className="h-3.5 w-3.5" />
+                              Slides
+                            </a>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Conference presentations — posters and talks. */}
+              {item.presentations && item.presentations.length > 0 && (
+                <div className="mt-4 space-y-3 rounded-lg border border-border bg-background/50 p-4">
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
+                    {item.presentations.length > 1
+                      ? "Presentations"
+                      : "Presentation"}
+                  </h4>
+                  {item.presentations.map((pres) => (
+                    <div key={pres.title} className="text-sm">
+                      <p className="flex items-start gap-2 font-medium leading-snug">
+                        <Mic className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-muted" />
+                        {pres.title}
+                      </p>
+                      <p className="mt-1 text-xs text-muted">{pres.venue}</p>
+                      <p className="mt-0.5 text-xs text-muted">
+                        {pres.date} · {pres.authorship}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <div className="mt-6 flex flex-wrap items-center gap-2">
                 {item.technologies?.map((tech) => (

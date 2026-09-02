@@ -12,6 +12,22 @@ import type { Project } from "@/types";
 
 export const projects: Project[] = [
   {
+    title: "QuantumGuard",
+    description:
+      "Full-stack demo staging a live three-party man-in-the-middle attack: an Origin, a Target, and an Intruder join the same session and every packet routes through the Intruder. In classical mode they silently copy the AES key; in quantum mode BB84 exposes them. Implements BB84 in Qiskit Aer over 256 qubits, derives AES-128-GCM keys, and rejects any exchange above 11% QBER.",
+    skills: ["Quantum Key Distribution", "Real-Time Systems", "Cryptography", "Full-Stack"],
+    languages: [
+      { name: "TypeScript", iconify: "skill-icons:typescript" },
+      { name: "React", iconify: "skill-icons:react-light" },
+      { name: "FastAPI", iconify: "skill-icons:fastapi" },
+      { name: "Qiskit", localIcon: "/images/icons/qiskit.svg" },
+    ],
+    githubUrl: "https://github.com/AhteshamAlvi/QuantumGuard",
+    liveUrl: "https://quantum-guard-eight.vercel.app/",
+    featured: true,
+    ratings: { complexity: 5, impact: 4, innovation: 5 },
+  },
+  {
     title: "Robotic Arm Manipulator Control",
     description:
       "End-to-end ROS2 robotic manipulation pipeline integrating ArUco vision, perspective calibration, inverse kinematics, and autonomous pick-and-place. Includes homography-based coordinate transformation and vacuum gripper control.",
@@ -20,6 +36,7 @@ export const projects: Project[] = [
       { name: "Python", iconify: "skill-icons:python-light" },
       { name: "ROS", iconify: "skill-icons:ros-light" },
       { name: "OpenCV", iconify: "skill-icons:opencv-light" },
+      { name: "Docker", iconify: "skill-icons:docker" },
     ],
     githubUrl:
       "https://github.com/AhteshamAlvi/Robotics-Arm-Manipulator-Control",
@@ -29,10 +46,11 @@ export const projects: Project[] = [
   {
     title: "Mini C Compiler",
     description:
-      "Multi-pass compiler in OCaml featuring constant folding/propagation, algebraic simplification, dead-branch elimination, static type checking, and Hindley-Milner style type inference with constraint generation and unification.",
+      "Multi-pass compiler for a C-like language, implemented twice from scratch — once in Rust, once in OCaml — featuring constant folding/propagation, algebraic simplification, dead-branch elimination, static type checking, and Hindley-Milner style type inference with constraint generation and unification.",
     skills: ["Compiler Design", "Type Theory", "Optimization Passes"],
     languages: [
       { name: "OCaml", iconify: "skill-icons:ocaml" },
+      { name: "Rust", iconify: "skill-icons:rust" },
     ],
     githubUrl: "https://github.com/AhteshamAlvi/mini_C_compiler",
     featured: true,
@@ -41,8 +59,8 @@ export const projects: Project[] = [
   {
     title: "Quantum Computing Projects",
     description:
-      "Quantum circuit implementations in Qiskit including Grover's search, Shor's factoring algorithm, and parameterized circuits for Quantum ML classification experiments on IBM Quantum hardware.",
-    skills: ["Quantum Circuits", "Quantum ML", "Quantum Computing", "IBM Quantum"],
+      "Bell-state preparation and a CHSH inequality test executed on both Aer simulators and real IBM Quantum backends, observing hardware-measured violation of the classical bound. Also includes parameterized circuits for quantum machine-learning classification experiments.",
+    skills: ["Quantum Circuits", "CHSH / Bell States", "Quantum ML", "IBM Quantum"],
     languages: [
       { name: "Python", iconify: "skill-icons:python-light" },
       { name: "Qiskit", localIcon: "/images/icons/qiskit.svg" },
@@ -53,7 +71,7 @@ export const projects: Project[] = [
   {
     title: "Education Inequality ML Project",
     description:
-      "Analyzed a 400-student socioeconomic dataset using statistical tests (chi-square, ANOVA, Spearman) and trained Linear Regression and Random Forest models to predict college GPA. Includes interactive visualizations.",
+      "Analyzed a 400-student socioeconomic dataset with chi-square, ANOVA, and Spearman hypothesis tests to identify predictors of cumulative college GPA, then trained Linear Regression and Random Forest models through a scikit-learn ColumnTransformer/Pipeline workflow for reproducible preprocessing and comparison. Published as an interactive results page.",
     skills: ["Machine Learning", "Statistical Analysis", "Data Visualization"],
     languages: [
       { name: "Python", iconify: "skill-icons:python-light" },
@@ -85,6 +103,34 @@ export const projects: Project[] = [
     ],
     githubUrl: "https://github.com/AhteshamAlvi/Java_TankGame",
     ratings: { complexity: 3, impact: 2, innovation: 3 },
+  },
+  {
+    title: "Runesmaker",
+    description:
+      "Generates a unique 3D rune for any word by translating it into 125 languages, deriving a 3D vector from the shape of each written form, smoothing those into a continuous vector field, tracing streamlines through it, and rendering the result as a tube-swept mesh in a custom Vulkan viewer. Fully deterministic — the same word always produces the same rune.",
+    skills: ["Vulkan / GLSL", "Procedural Generation", "Vector Fields", "Mesh Generation"],
+    languages: [
+      { name: "Python", iconify: "skill-icons:python-light" },
+      { name: "C++", iconify: "skill-icons:cpp" },
+      { name: "Vulkan", iconify: "simple-icons:vulkan" },
+    ],
+    githubUrl: "https://github.com/AhteshamAlvi/Runesmaker",
+    featured: true,
+    ratings: { complexity: 5, impact: 2, innovation: 5 },
+  },
+  {
+    title: "Nenworld — Data-Driven Tabletop Rules Engine",
+    description:
+      "A pure, side-effect-free rules kernel in TypeScript — 120 files, ~38,000 LOC, zero runtime dependencies — resolving an authored character sheet into fully derived state across 10 content domains. Every public entry point returns a serializable trace tree explaining how each value was computed, so derived numbers are auditable instead of opaque. 596 tests across 27 suites under a strict tsc --noEmit gate.",
+    skills: ["Rules Engine", "Trace-Based Derivation", "Type-Level Safety", "Monorepo"],
+    languages: [
+      { name: "TypeScript", iconify: "skill-icons:typescript" },
+      { name: "React", iconify: "skill-icons:react-light" },
+      { name: "Vite", iconify: "skill-icons:vite-light" },
+    ],
+    githubUrl: "https://github.com/AhteshamAlvi/dnd_worlds",
+    featured: true,
+    ratings: { complexity: 5, impact: 3, innovation: 4 },
   },
   {
     title: "LeetCode Solutions",

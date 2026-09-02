@@ -8,6 +8,35 @@ import type { Experience } from "@/types";
 
 export const experiences: Experience[] = [
   {
+    title: "Software Developer Intern",
+    company: "fusionSpan",
+    location: "Rockville, MD",
+    startDate: "June 2026",
+    endDate: "August 2026",
+    bullets: [
+      "Salesforce platform engineering for national trade associations and nonprofits.",
+      "Diagnosed and repaired 50+ client-reported and backlog defects over an 11-week term, working tickets solo against per-ticket senior-developer code review — including restoring a broken shopping-cart flow in a client-facing web application.",
+      "Wrote and modernized dozens of Apex test classes across eight client orgs (MCAA, MHI, MSCI, NAEYC, NCAA, AAAS, ASQ, NBAA), realigning legacy suites with each codebase to keep deployments clearing Salesforce's 75% coverage gate.",
+      "Built new Jenkins test environments and deployed test-suite updates and validation-rule changes into multiple production orgs.",
+      "Designed and built a five-skill Claude agent toolchain spanning the full ticket lifecycle: persistent cross-session Jira ticket notes, PMD static-analysis triage and repair for Apex, Confluence documentation generated from actual git diffs rather than conversation history, and a categorized reusable-code library with an automated consistency audit.",
+      "Engineered that toolchain for reliability and token cost — explicit negative-trigger conditions on every skill to prevent misfires, progressive-disclosure reference files separating templates from logic, and an index-first read strategy — then shipped it to the intern cohort with sandbox test scripts and testing procedures.",
+    ],
+    technologies: [
+      "Salesforce Platform",
+      "Apex Testing",
+      "CI / Static Analysis",
+      "Agent Tooling",
+      "Client Delivery",
+    ],
+    icons: [
+      { name: "Salesforce", iconify: "logos:salesforce" },
+      { name: "Jenkins", iconify: "skill-icons:jenkins-light" },
+      { name: "Jira", iconify: "logos:jira" },
+      { name: "Confluence", iconify: "logos:confluence" },
+      { name: "Claude", iconify: "simple-icons:anthropic" },
+    ],
+  },
+  {
     title: "Software Development Intern",
     company: "Urban Food Alliance",
     location: "Remote",
@@ -73,7 +102,7 @@ export const experiences: Experience[] = [
     startDate: "June 2022",
     endDate: "December 2022",
     bullets: [
-      "Taught JavaScript to 30+ children through interactive projects and coding tasks, achieving a 25% improvement in student comprehension.",
+      "Taught JavaScript fundamentals to 30+ students aged 7-14 through project-based instruction built around games and coding tasks.",
       "Mentored students in developing their own projects including coding games, robotic blocks, and beginner coding activities.",
       "Reviewed and provided feedback on code to ensure quality, and developed learning materials for programming languages.",
     ],

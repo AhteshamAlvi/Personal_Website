@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowDown, FileText, Mail } from "lucide-react";
 import { profile, socialLinks } from "@/data/profile";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
@@ -18,6 +19,20 @@ export default function Hero() {
   return (
     <section className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 text-center">
       <div className="mx-auto max-w-3xl">
+        {/*
+          Headshot — `priority` because this is above the fold and is the
+          largest contentful paint on the page; without it Next.js lazy-loads
+          the image and the LCP score suffers.
+        */}
+        <Image
+          src="/images/headshot.jpg"
+          alt={profile.name}
+          width={600}
+          height={900}
+          priority
+          className="mx-auto mb-8 h-32 w-32 rounded-full object-cover object-top ring-1 ring-border sm:h-40 sm:w-40"
+        />
+
         <h1 className="text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
           {profile.name}
         </h1>
