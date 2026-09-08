@@ -31,7 +31,7 @@ export const education: Education = {
     "B.S. Finance (Robert H. Smith School of Business)",
   ],
   minors: ["Data Science", "Robotics and Autonomous Systems"],
-  gpa: 3.441,
+  gpa: 3.446,
   honors: [
     "University Honors College (2023 — Present)",
     "Semester Academic Honors — Fall 2023, Spring 2024, Fall 2024",
