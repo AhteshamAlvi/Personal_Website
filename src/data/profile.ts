@@ -57,7 +57,7 @@ export const education: Education = {
     "Strategic Management (BMGT495)",
     "Differential Equations (MATH246)",
   ],
-  graduationDate: "May 2027",
+  graduationDate: "December 2027",
 };
 
 export const socialLinks: SocialLink[] = [
