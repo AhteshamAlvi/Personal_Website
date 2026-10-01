@@ -102,7 +102,7 @@ export const research: Research[] = [
     title: "Exoplanet Habitability Classification",
     organization: "University of Maryland, College Park",
     role: "Independent Research",
-    period: "January 2026 — June 2026",
+    period: "January 2026 — Present",
     description:
       "Consolidated four astronomical catalogs into a single feature-rich dataset and trained a semi-supervised model to assign habitability classes to confirmed exoplanets that had none.",
     bullets: [

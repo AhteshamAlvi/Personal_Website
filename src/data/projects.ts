@@ -119,10 +119,10 @@ export const projects: Project[] = [
     ratings: { complexity: 5, impact: 2, innovation: 5 },
   },
   {
-    title: "Nenworld — Data-Driven Tabletop Rules Engine",
+    title: "dnd_worlds — Tabletop Rules Engine",
     description:
-      "A pure, side-effect-free rules kernel in TypeScript — 120 files, ~38,000 LOC, zero runtime dependencies — resolving an authored character sheet into fully derived state across 10 content domains. Every public entry point returns a serializable trace tree explaining how each value was computed, so derived numbers are auditable instead of opaque. 596 tests across 27 suites under a strict tsc --noEmit gate.",
-    skills: ["Rules Engine", "Trace-Based Derivation", "Type-Level Safety", "Monorepo"],
+      "A modular TypeScript engine for tabletop combat, character progression, equipment, and aura resource management, with deterministic turn and reaction state machines driving every encounter. Backed by regression coverage across 160+ Vitest test files.",
+    skills: ["Rules Engine", "State Machines", "Combat Systems", "Type-Level Safety"],
     languages: [
       { name: "TypeScript", iconify: "skill-icons:typescript" },
       { name: "React", iconify: "skill-icons:react-light" },

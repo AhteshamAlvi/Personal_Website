@@ -62,7 +62,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    title: "Budget Reviewer",
+    title: "Budget Reviewer, Emergency Fund Manager",
     company: "UMD Finance Committee",
     location: "College Park, MD",
     startDate: "September 2024",
@@ -85,11 +85,11 @@ export const experiences: Experience[] = [
     startDate: "January 2024",
     endDate: "Present",
     bullets: [
-      "Managed, scanned, and archived over 4,000 documents, improving file organization by 70% and retrieval efficiency.",
-      "Audited and entered financial data, including W4 forms, into Workday and Excel, ensuring compliance with IRS regulations.",
-      "Handled correspondence and communications with clients and vendors, and assisted with report and presentation preparation.",
+      "Archived and digitized over 4,000 documents, improving file organization and retrieval efficiency.",
+      "Audited and entered payroll and tax data, including W-4 forms, into Workday and Excel, ensuring IRS compliance.",
+      "Supported recruiting through applicant data entry and record management, and handled routine office administration.",
     ],
-    technologies: ["Document Management", "Data Entry", "Financial Compliance"],
+    technologies: ["Document Management", "Data Entry", "Financial Compliance", "Recruiting Support"],
     icons: [
       { name: "Adobe Acrobat", iconify: "simple-icons:adobeacrobatreader" },
       { name: "Excel", iconify: "vscode-icons:file-type-excel" },
